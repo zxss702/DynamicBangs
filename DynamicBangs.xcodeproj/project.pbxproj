@@ -1,0 +1,470 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1495E7D12B7A291100A7F384 /* menuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1495E7D02B7A291100A7F384 /* menuButton.swift */; };
+		1495E7D72B7A405500A7F384 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1495E7D22B7A405500A7F384 /* Sound.swift */; };
+		1495E7D82B7A405500A7F384 /* SoundOutputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1495E7D32B7A405500A7F384 /* SoundOutputManager.swift */; };
+		1495E7D92B7A405500A7F384 /* SoundOutputManager+Goodies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1495E7D42B7A405500A7F384 /* SoundOutputManager+Goodies.swift */; };
+		1495E7DA2B7A405500A7F384 /* SoundOutputManager+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1495E7D52B7A405500A7F384 /* SoundOutputManager+Properties.swift */; };
+		1495E7DD2B7A695D00A7F384 /* MediaRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 1495E7DC2B7A695D00A7F384 /* MediaRemote */; };
+		1495E7DF2B7A695D00A7F384 /* PrivateMediaRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 1495E7DE2B7A695D00A7F384 /* PrivateMediaRemote */; };
+		1495E7E62B7B285400A7F384 /* MediaKeyTap in Frameworks */ = {isa = PBXBuildFile; productRef = 1495E7E52B7B285400A7F384 /* MediaKeyTap */; };
+		14CDE3FA2B7A0F6200426E02 /* DynamicBangsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CDE3F92B7A0F6200426E02 /* DynamicBangsApp.swift */; };
+		14CDE3FC2B7A0F6200426E02 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CDE3FB2B7A0F6200426E02 /* ContentView.swift */; };
+		14CDE3FE2B7A0F6400426E02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14CDE3FD2B7A0F6400426E02 /* Assets.xcassets */; };
+		14CDE4012B7A0F6400426E02 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14CDE4002B7A0F6400426E02 /* Preview Assets.xcassets */; };
+		14CDE4092B7A0F8500426E02 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CDE4082B7A0F8500426E02 /* SettingView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1495E7EC2B7B35D400A7F384 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1495E7D02B7A291100A7F384 /* menuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = menuButton.swift; sourceTree = "<group>"; };
+		1495E7D22B7A405500A7F384 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
+		1495E7D32B7A405500A7F384 /* SoundOutputManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundOutputManager.swift; sourceTree = "<group>"; };
+		1495E7D42B7A405500A7F384 /* SoundOutputManager+Goodies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SoundOutputManager+Goodies.swift"; sourceTree = "<group>"; };
+		1495E7D52B7A405500A7F384 /* SoundOutputManager+Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SoundOutputManager+Properties.swift"; sourceTree = "<group>"; };
+		1495E7E02B7B0AEA00A7F384 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		14CDE3F62B7A0F6200426E02 /* DynamicBangs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DynamicBangs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		14CDE3F92B7A0F6200426E02 /* DynamicBangsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicBangsApp.swift; sourceTree = "<group>"; };
+		14CDE3FB2B7A0F6200426E02 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		14CDE3FD2B7A0F6400426E02 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		14CDE4002B7A0F6400426E02 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		14CDE4022B7A0F6400426E02 /* DynamicBangs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DynamicBangs.entitlements; sourceTree = "<group>"; };
+		14CDE4082B7A0F8500426E02 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		14CDE3F32B7A0F6200426E02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1495E7DD2B7A695D00A7F384 /* MediaRemote in Frameworks */,
+				1495E7DF2B7A695D00A7F384 /* PrivateMediaRemote in Frameworks */,
+				1495E7E62B7B285400A7F384 /* MediaKeyTap in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1495E7D62B7A405500A7F384 /* ISSoundAdditions */ = {
+			isa = PBXGroup;
+			children = (
+				1495E7D22B7A405500A7F384 /* Sound.swift */,
+				1495E7D32B7A405500A7F384 /* SoundOutputManager.swift */,
+				1495E7D42B7A405500A7F384 /* SoundOutputManager+Goodies.swift */,
+				1495E7D52B7A405500A7F384 /* SoundOutputManager+Properties.swift */,
+			);
+			path = ISSoundAdditions;
+			sourceTree = "<group>";
+		};
+		1495E7E72B7B35B200A7F384 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		14CDE3ED2B7A0F6200426E02 = {
+			isa = PBXGroup;
+			children = (
+				14CDE3F82B7A0F6200426E02 /* DynamicBangs */,
+				14CDE3F72B7A0F6200426E02 /* Products */,
+				1495E7E72B7B35B200A7F384 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		14CDE3F72B7A0F6200426E02 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				14CDE3F62B7A0F6200426E02 /* DynamicBangs.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		14CDE3F82B7A0F6200426E02 /* DynamicBangs */ = {
+			isa = PBXGroup;
+			children = (
+				1495E7E02B7B0AEA00A7F384 /* Info.plist */,
+				14CDE3F92B7A0F6200426E02 /* DynamicBangsApp.swift */,
+				14CDE4082B7A0F8500426E02 /* SettingView.swift */,
+				1495E7D02B7A291100A7F384 /* menuButton.swift */,
+				14CDE3FB2B7A0F6200426E02 /* ContentView.swift */,
+				14CDE3FD2B7A0F6400426E02 /* Assets.xcassets */,
+				14CDE4022B7A0F6400426E02 /* DynamicBangs.entitlements */,
+				1495E7D62B7A405500A7F384 /* ISSoundAdditions */,
+				14CDE3FF2B7A0F6400426E02 /* Preview Content */,
+			);
+			path = DynamicBangs;
+			sourceTree = "<group>";
+		};
+		14CDE3FF2B7A0F6400426E02 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				14CDE4002B7A0F6400426E02 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		14CDE3F52B7A0F6200426E02 /* DynamicBangs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14CDE4052B7A0F6400426E02 /* Build configuration list for PBXNativeTarget "DynamicBangs" */;
+			buildPhases = (
+				14CDE3F22B7A0F6200426E02 /* Sources */,
+				14CDE3F32B7A0F6200426E02 /* Frameworks */,
+				14CDE3F42B7A0F6200426E02 /* Resources */,
+				1495E7EC2B7B35D400A7F384 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DynamicBangs;
+			packageProductDependencies = (
+				1495E7DC2B7A695D00A7F384 /* MediaRemote */,
+				1495E7DE2B7A695D00A7F384 /* PrivateMediaRemote */,
+				1495E7E52B7B285400A7F384 /* MediaKeyTap */,
+			);
+			productName = DynamicBangs;
+			productReference = 14CDE3F62B7A0F6200426E02 /* DynamicBangs.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		14CDE3EE2B7A0F6200426E02 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					14CDE3F52B7A0F6200426E02 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+				};
+			};
+			buildConfigurationList = 14CDE3F12B7A0F6200426E02 /* Build configuration list for PBXProject "DynamicBangs" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 14CDE3ED2B7A0F6200426E02;
+			packageReferences = (
+				1495E7DB2B7A695D00A7F384 /* XCRemoteSwiftPackageReference "MediaRemote" */,
+				1495E7E42B7B285400A7F384 /* XCLocalSwiftPackageReference "../../Packge/MediaKeyTap" */,
+			);
+			productRefGroup = 14CDE3F72B7A0F6200426E02 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				14CDE3F52B7A0F6200426E02 /* DynamicBangs */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		14CDE3F42B7A0F6200426E02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14CDE4012B7A0F6400426E02 /* Preview Assets.xcassets in Resources */,
+				14CDE3FE2B7A0F6400426E02 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		14CDE3F22B7A0F6200426E02 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1495E7D72B7A405500A7F384 /* Sound.swift in Sources */,
+				1495E7D12B7A291100A7F384 /* menuButton.swift in Sources */,
+				14CDE4092B7A0F8500426E02 /* SettingView.swift in Sources */,
+				1495E7DA2B7A405500A7F384 /* SoundOutputManager+Properties.swift in Sources */,
+				14CDE3FC2B7A0F6200426E02 /* ContentView.swift in Sources */,
+				1495E7D82B7A405500A7F384 /* SoundOutputManager.swift in Sources */,
+				14CDE3FA2B7A0F6200426E02 /* DynamicBangsApp.swift in Sources */,
+				1495E7D92B7A405500A7F384 /* SoundOutputManager+Goodies.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		14CDE4032B7A0F6400426E02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		14CDE4042B7A0F6400426E02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		14CDE4062B7A0F6400426E02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DynamicBangs/DynamicBangs.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"DynamicBangs/Preview Content\"";
+				DEVELOPMENT_TEAM = Z4VBK6ZH5F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DynamicBangs/Info.plist;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "提供定制的刘海音量调整";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 0.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		14CDE4072B7A0F6400426E02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DynamicBangs/DynamicBangs.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"DynamicBangs/Preview Content\"";
+				DEVELOPMENT_TEAM = Z4VBK6ZH5F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DynamicBangs/Info.plist;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "提供定制的刘海音量调整";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 0.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		14CDE3F12B7A0F6200426E02 /* Build configuration list for PBXProject "DynamicBangs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14CDE4032B7A0F6400426E02 /* Debug */,
+				14CDE4042B7A0F6400426E02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		14CDE4052B7A0F6400426E02 /* Build configuration list for PBXNativeTarget "DynamicBangs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14CDE4062B7A0F6400426E02 /* Debug */,
+				14CDE4072B7A0F6400426E02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		1495E7E42B7B285400A7F384 /* XCLocalSwiftPackageReference "../../Packge/MediaKeyTap" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../Packge/MediaKeyTap;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1495E7DB2B7A695D00A7F384 /* XCRemoteSwiftPackageReference "MediaRemote" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/PrivateFrameworks/MediaRemote";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1495E7DC2B7A695D00A7F384 /* MediaRemote */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1495E7DB2B7A695D00A7F384 /* XCRemoteSwiftPackageReference "MediaRemote" */;
+			productName = MediaRemote;
+		};
+		1495E7DE2B7A695D00A7F384 /* PrivateMediaRemote */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1495E7DB2B7A695D00A7F384 /* XCRemoteSwiftPackageReference "MediaRemote" */;
+			productName = PrivateMediaRemote;
+		};
+		1495E7E52B7B285400A7F384 /* MediaKeyTap */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MediaKeyTap;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 14CDE3EE2B7A0F6200426E02 /* Project object */;
+}
