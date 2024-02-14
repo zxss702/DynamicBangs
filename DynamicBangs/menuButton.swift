@@ -20,7 +20,6 @@ struct menuButton<Content:View,Content2:View, Content3:View>:View {
             if showDivider {
                 Divider()
             }
-            
             HStack{
                 Text(titleName)
                     .font(.caption)

@@ -24,6 +24,8 @@ struct mediaInfoFunction: Equatable {
     var Artist2: String
     var isPlay:Bool
     var fullType:Int = 0
+    var fullTime: Double = 0.1
+    var nowTime: Double = 0
 }
 
 struct volumeInfoFunction: Equatable {
@@ -38,58 +40,59 @@ struct BrightInfoFunction: Equatable {
 typealias CoreDisplay_Display_SetUserBrightness = @convention(c) (CGDirectDisplayID, Double) -> Void
 
 // 动态加载CoreDisplay框架并尝试调用CoreDisplay_Display_SetUserBrightness函数
-func setBrightnessForAllDisplays(brightness: Double) {
-    // 动态加载CoreDisplay框架
-    guard let coreDisplay = dlopen("/System/Library/Frameworks/CoreDisplay.framework/CoreDisplay", RTLD_NOW) else {
-        print("Failed to load CoreDisplay.framework")
-        return
-    }
-    
-    // 尝试获取CoreDisplay_Display_SetUserBrightness函数的地址
-    guard let CDSetUserBrightness = dlsym(coreDisplay, "CoreDisplay_Display_SetUserBrightness") else {
-        print("Failed to locate CoreDisplay_Display_SetUserBrightness")
+func setBrightnessForAllDisplays(brightness: Float) {
+    DispatchQueue.main.async {
+        // 动态加载CoreDisplay框架
+        guard let coreDisplay = dlopen("/System/Library/Frameworks/CoreDisplay.framework/CoreDisplay", RTLD_NOW) else {
+            print("Failed to load CoreDisplay.framework")
+            return
+        }
+        // 尝试获取CoreDisplay_Display_SetUserBrightness函数的地址
+        guard let CDSetUserBrightness = dlsym(coreDisplay, "CoreDisplay_Display_SetUserBrightness") else {
+            print("Failed to locate CoreDisplay_Display_SetUserBrightness")
+            dlclose(coreDisplay)
+            return
+        }
+        
+        // 将函数地址转换为Swift可调用的函数
+        let setUserBrightness = unsafeBitCast(CDSetUserBrightness, to: CoreDisplay_Display_SetUserBrightness.self)
+        
+        // 获取所有活动显示器的ID并设置亮度
+        let displayIDs = NSScreen.screens.map { ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as! NSNumber).uint32Value }
+        for displayID in displayIDs {
+            setUserBrightness(displayID, Double(brightness))
+        }
+        
+        //    // 卸载CoreDisplay框架
         dlclose(coreDisplay)
-        return
     }
-    
-    // 将函数地址转换为Swift可调用的函数
-    let setUserBrightness = unsafeBitCast(CDSetUserBrightness, to: CoreDisplay_Display_SetUserBrightness.self)
-    
-    // 获取所有活动显示器的ID并设置亮度
-    let displayIDs = NSScreen.screens.map { ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as! NSNumber).uint32Value }
-    for displayID in displayIDs {
-        setUserBrightness(displayID, brightness)
-    }
-    
-//    // 卸载CoreDisplay框架
-    dlclose(coreDisplay)
 }
 
-typealias setBrightness = @convention(c) (Float) -> Void
+//typealias setBrightness = @convention(c) (Float) -> Void
 
-func setKeyBrightness(brightness: Float) {
-    // 动态加载CoreBrightness框架
-    guard let coreBrightness = dlopen("/System/Library/PrivateFrameworks/CoreBrightness.framework/CoreBrightness", RTLD_NOW) else {
-        print("Failed to load CoreBrightness.framework")
-        return
-    }
-    
-    // 尝试获取设置键盘亮度的函数地址，这里使用伪函数名作为示例
-    guard let setKeyboardBrightnessFunction = dlsym(coreBrightness, "CBSetKeyboardBrightness") else {
-        print("Failed to locate the function to set keyboard brightness")
-        dlclose(coreBrightness)
-        return
-    }
-    
-    // 将函数地址转换为Swift可调用的函数
-    let function = unsafeBitCast(setKeyboardBrightnessFunction, to: (@convention(c) (Float) -> Void).self)
-    
-    // 调用函数设置键盘亮度
-    function(brightness)
-    
-    // 卸载CoreBrightness框架
-    dlclose(coreBrightness)
-}
+//func setKeyBrightness(brightness: Float) {
+//    // 动态加载CoreBrightness框架
+//    guard let coreBrightness = dlopen("/System/Library/PrivateFrameworks/CoreBrightness.framework/CoreBrightness", RTLD_NOW) else {
+//        print("Failed to load CoreBrightness.framework")
+//        return
+//    }
+//    
+//    // 尝试获取设置键盘亮度的函数地址，这里使用伪函数名作为示例
+//    guard let setKeyboardBrightnessFunction = dlsym(coreBrightness, "CBSetKeyboardBrightness") else {
+//        print("Failed to locate the function to set keyboard brightness")
+//        dlclose(coreBrightness)
+//        return
+//    }
+//    
+//    // 将函数地址转换为Swift可调用的函数
+//    let function = unsafeBitCast(setKeyboardBrightnessFunction, to: (@convention(c) (Float) -> Void).self)
+//    
+//    // 调用函数设置键盘亮度
+//    function(brightness)
+//    
+//    // 卸载CoreBrightness框架
+//    dlclose(coreBrightness)
+//}
 
 struct ChargingInfoFunction: Equatable {
     var isCharging: Bool = false
@@ -106,6 +109,7 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
     @Published var keyBright:BrightInfoFunction?
     @Published var isCharging:ChargingInfoFunction = ChargingInfoFunction()
     
+    @Published var showWhite = false
     override init() {
         volume = volumeInfoFunction(volome: Sound.output.volume, fullType: 10)
         super.init()
@@ -125,6 +129,7 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
         DispatchQueue.main.async { [self] in
             setWindow()
         }
+        setTime()
     }
     
     deinit {
@@ -137,10 +142,10 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
         switch mediaKey {
         case .brightnessUp:
             self.bright = BrightInfoFunction(bright: min((self.bright?.bright ?? 1) + 0.0625, 1))
-            setBrightnessForAllDisplays(brightness: Double((self.bright?.bright ?? 1)))
+            setBrightnessForAllDisplays(brightness: (self.bright?.bright ?? 1))
         case .brightnessDown:
             self.bright = BrightInfoFunction(bright: max((self.bright?.bright ?? 1) - 0.0625, 0))
-            setBrightnessForAllDisplays(brightness: Double((self.bright?.bright ?? 1)))
+            setBrightnessForAllDisplays(brightness: (self.bright?.bright ?? 1))
         case .volumeUp:
             try? Sound.output.setVolume(Sound.output.volume + 0.0625)
             self.volume = volumeInfoFunction(volome: Sound.output.volume)
@@ -151,16 +156,14 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
             try? Sound.output.mute(!Sound.output.isMuted)
             self.volume = volumeInfoFunction(volome: Sound.output.isMuted ? 0 : Sound.output.volume)
         case .backlightUP:
-           
             self.keyBright = BrightInfoFunction(bright: min((self.keyBright?.bright ?? 1) + 0.0625, 1))
-            setKeyBrightness(brightness: (self.keyBright?.bright ?? 1))
+//            setKeyBrightness(brightness: (self.keyBright?.bright ?? 1))
         case .backlightDown:
             self.keyBright = BrightInfoFunction(bright: max((self.keyBright?.bright ?? 1) - 0.0625, 0))
-            setKeyBrightness(brightness: (self.keyBright?.bright ?? 1))
+//            setKeyBrightness(brightness: (self.keyBright?.bright ?? 1))
         default:
             break
         }
-        setTime()
     }
     
     func setBeter() {
@@ -186,13 +189,13 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
                     let capacity = info[kIOPSCurrentCapacityKey] as? Int
                 {
                     let isConnect = power == kIOPSACPowerValue
+                    isCharging.beter = capacity
                     if isConnect {
                         if (IsCharging == 1) != isCharging.isCharging  || isConnect != isCharging.isConnect {
                             isCharging = ChargingInfoFunction(isCharging: IsCharging == 1, isConnect: isConnect, beter: capacity, fullType: 0)
                         }
                     } else {
                         if isCharging.isConnect {
-                            print("scd")
                             isCharging = ChargingInfoFunction(isCharging: IsCharging == 1, isConnect: isConnect, beter: capacity, fullType: 0)
                         }
                     }
@@ -202,7 +205,7 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
     }
     
     func setvolume() {
-        mediaKeyTap = MediaKeyTap(delegate: self, for: [.volumeUp, .volumeDown, .mute, ])//.brightnessUp, .brightnessDown, .backlightDown, .backlightUP])
+        mediaKeyTap = MediaKeyTap(delegate: self, for: [.volumeUp, .volumeDown, .mute, .brightnessUp, .brightnessDown], observeBuiltIn: true)//.brightnessUp, .brightnessDown, .backlightDown, .backlightUP])
         mediaKeyTap?.start()
     }
     
@@ -235,44 +238,47 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
                         }
                     }
                 }
+                
+                if
+                    let allTime = information[kMRMediaRemoteNowPlayingInfoDuration] as? Double,
+                    let nowTime = information[kMRMediaRemoteNowPlayingInfoElapsedTime] as? Double
+                {
+                    self.media?.fullTime = allTime
+                    self.media?.nowTime = nowTime
+                }
+                
+                MRMediaRemoteGetNowPlayingApplicationIsPlaying(.main) { Bool in
+                    self.media?.isPlay = Bool
+                }
             } else {
                 self.media = nil
             }
         })
-        
-        MRMediaRemoteGetNowPlayingApplicationIsPlaying(.main) { Bool in
-            self.media?.isPlay = Bool
-        }
-        setTime()
     }
     
-    var time:Timer?
     func setTime() {
-        if time == nil {
-            time = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] Timer in
-                self.media?.fullType += 1
-                
-                if self.volume.fullType < 10 {
-                    self.volume.fullType += 1
-                }
-                if self.bright?.fullType ?? 10 < 10 {
-                    self.bright?.fullType += 1
-                } else {
-                    self.bright = nil
-                }
-                if self.keyBright?.fullType ?? 10 < 10 {
-                    self.keyBright?.fullType += 1
-                } else {
-                    self.keyBright = nil
-                }
-                self.isCharging.fullType += 1
-                setBeter()
-                
-//                if self.keyBright?.fullType ?? 10 >= 10 && self.bright?.fullType ?? 10 >= 10 && self.volume.fullType >= 10 && self.media?.fullType ?? 10 >= 10 {
-//                    time?.invalidate()
-//                    time = nil
-//                }
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] Timer in
+            self.media?.fullType += 1
+            
+            if self.volume.fullType < 10 {
+                self.volume.fullType += 1
             }
+            if self.bright?.fullType ?? 10 < 10 {
+                self.bright?.fullType += 1
+            } else {
+                self.bright = nil
+            }
+            if self.keyBright?.fullType ?? 10 < 10 {
+                self.keyBright?.fullType += 1
+            } else {
+                self.keyBright = nil
+            }
+            if self.isCharging.fullType < 15 {
+                self.isCharging.fullType += 1
+            }
+            
+            setBeter()
+            
         }
     }
     
@@ -281,25 +287,24 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
             item.close()
         }
         windows.removeAll()
-        for i in NSScreen.screens {
-            let hostionViewController = NSHostingController(rootView: isLandView().environmentObject(self))
-            let BangsWindow = NotchWindow()
-            BangsWindow.targetScreen = i
-            BangsWindow.contentViewController = hostionViewController
-            BangsWindow.styleMask = [.borderless, .nonactivatingPanel]
-            BangsWindow.backingType = .buffered
-            BangsWindow.backgroundColor = .clear
-            BangsWindow.hasShadow = false
-            BangsWindow.level = .screenSaver
-            BangsWindow.collectionBehavior =  [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
-            BangsWindow.setFrame(i.frame, display: true)
-            let notchWindowController = NSWindowController()
-            notchWindowController.contentViewController = BangsWindow.contentViewController
-            
-            notchWindowController.window = BangsWindow
-            notchWindowController.showWindow(self)
-            windows.append(BangsWindow)
-        }
+        guard let i = NSScreen.main else { return }
+        let hostionViewController = NSHostingController(rootView: isLandView().environmentObject(self))
+        let BangsWindow = NotchWindow()
+        BangsWindow.targetScreen = i
+        BangsWindow.contentViewController = hostionViewController
+        BangsWindow.styleMask = [.borderless, .nonactivatingPanel]
+        BangsWindow.backingType = .buffered
+        BangsWindow.backgroundColor = .clear
+        BangsWindow.hasShadow = false
+        BangsWindow.level = .screenSaver
+        BangsWindow.collectionBehavior =  [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
+        BangsWindow.setFrame(i.frame, display: true)
+        let notchWindowController = NSWindowController()
+        notchWindowController.contentViewController = BangsWindow.contentViewController
+        
+        notchWindowController.window = BangsWindow
+        notchWindowController.showWindow(self)
+        windows.append(BangsWindow)
     }
 }
 
@@ -320,18 +325,21 @@ struct DynamicBangsApp: App {
     @Environment(\.openWindow) var openWindow
     
     var body: some Scene {
-        MenuBarExtra("灵动刘海设置", systemImage: "rectangle.portrait.topthird.inset.filled") {
-            Button("打开设置") {
-                openWindow.callAsFunction(id: "灵动刘海设置")
-            }
-            Divider()
-            Button("退出程序") {
-                NSApplication.shared.terminate(nil)
-            }
-        }
-        Window(Text("灵动刘海设置"), id: "灵动刘海设置") {
+        WindowGroup(Text("灵动刘海设置")) {
             SettingView()
                 .environmentObject(appObserver)
         }
+        MenuBarExtra("灵动刘海设置", systemImage: "rectangle.portrait.topthird.inset.filled") {
+            SettingView()
+                .environmentObject(appObserver)
+                .overlay(alignment: .bottomLeading) {
+                    Button("退出程序") {
+                        NSApplication.shared.terminate(nil)
+                    }
+                    .padding(.all)
+                }
+           
+        }
+        .menuBarExtraStyle(.window)
     }
 }

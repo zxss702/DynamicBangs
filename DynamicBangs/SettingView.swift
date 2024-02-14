@@ -9,23 +9,22 @@ import SwiftUI
 
 struct SettingView: View {
     @EnvironmentObject var appObserver:AppObserver
-    @AppStorage("BangsWidth") var BangsWidth:Double = 145
+    @AppStorage("BangsWidth") var BangsWidth:Double = 204
     @AppStorage("BangsHeight") var BangsHeight:Double = 32
     
-    @AppStorage("showDevelpoBangs") var showDevelpoBangs = false
+   
     @AppStorage("defautBangs") var defautBangs = true
     
     @AppStorage("islandModle") var islandModle = false
-    
-    @AppStorage("bigFillWidth") var bigFillWidth:Double = 5
     @AppStorage("fontSecler") var fontSecler:Double = 1
     
     var body: some View {
         PopoverRootStyle {
             Group {
+                Text("确保刘海外有黑色边缘，白色被刘海覆盖。")
                 menuButton(titleName: "刘海宽度", showDivider: false) {
                     Button("恢复默认"){
-                        BangsWidth = 145
+                        BangsWidth = 204
                     }
                     .font(.caption)
                     .foregroundColor(Color(NSColor.systemBlue))
@@ -35,7 +34,11 @@ struct SettingView: View {
                         .bold()
                         .foregroundColor(.gray)
                 } content: {
-                    Slider(value: $BangsWidth, in: 100...300)
+                    Slider(value: $BangsWidth, in: 100...300) { Bool in
+                        withAnimation(.spring()) {
+                            appObserver.showWhite = Bool
+                        }
+                    }
                         .animation(.spring(), value: BangsWidth)
                 }
                 menuButton(titleName: "刘海高度", showDivider: false) {
@@ -50,7 +53,11 @@ struct SettingView: View {
                         .bold()
                         .foregroundColor(.gray)
                 } content: {
-                    Slider(value: $BangsHeight, in: 21...100)
+                    Slider(value: $BangsHeight, in: 21...100) { Bool in
+                        withAnimation(.spring()) {
+                            appObserver.showWhite = Bool
+                        }
+                    }
                         .animation(.spring(), value: BangsHeight)
                 }
                 menuButton(titleName: "刘海标准字体", showDivider: false) {
@@ -69,34 +76,6 @@ struct SettingView: View {
                         .animation(.spring(), value: fontSecler)
                 }
             }
-            menuButton(titleName: "刘海扩大感知距离", showDivider: false) {
-                Button("恢复默认"){
-                    bigFillWidth = 5
-                }
-                .font(.caption)
-                .foregroundColor(Color(NSColor.systemBlue))
-            } MainTitle2: {
-                Text(String(Int(bigFillWidth)))
-                    .font(.caption)
-                    .bold()
-                    .foregroundColor(.gray)
-            } content: {
-                Slider(value: $bigFillWidth, in: 5...30)
-                    .animation(.spring(), value: bigFillWidth)
-            }
-            
-            #if DEBUG
-            menuButton(titleName: "显示Bar", showDivider: true) {
-                Spacer()
-            } MainTitle2: {
-                Spacer()
-            } content: {
-                Toggle(isOn: $showDevelpoBangs) {
-                    
-                }
-                .labelsHidden()
-            }
-            #endif
             
             menuButton(titleName: "灵动岛模式", showDivider: true) {
                 Spacer()
