@@ -6,6 +6,20 @@
 //
 
 import SwiftUI
+import AVFoundation
+
+let list:[Int:String] = {
+    var newL:[Int:String] = [:]
+    newL[0] = "关闭"
+    guard let systemSoundFiles = getSystemSoundFileEnumerator() else { return newL }
+    for item in systemSoundFiles {
+        guard let url = item as? URL, let name = url.deletingPathExtension().pathComponents.last else { continue }
+        var soundId: SystemSoundID = 0
+        AudioServicesCreateSystemSoundID(url as CFURL, &soundId)
+        newL[Int(soundId as UInt32)] = name
+    }
+    return newL
+}()
 
 struct SettingView: View {
     @EnvironmentObject var appObserver:AppObserver
@@ -17,6 +31,12 @@ struct SettingView: View {
     
     @AppStorage("islandModle") var islandModle = false
     @AppStorage("fontSecler") var fontSecler:Double = 1
+    
+    @AppStorage("showCard") var showCard = true
+    
+    @AppStorage("palyID") var playID: Int = 1
+    
+    @AppStorage("musicLogo") var musicLogo = "music.note"
     
     var body: some View {
         PopoverRootStyle {
@@ -87,16 +107,67 @@ struct SettingView: View {
                 }
                 .labelsHidden()
             }
-            menuButton(titleName: "显示器是否具有刘海", showDivider: true) {
+            
+            menuButton(titleName: "活动时不显大卡片", showDivider: true) {
                 Spacer()
             } MainTitle2: {
                 Spacer()
             } content: {
-                Toggle(isOn: $defautBangs) {
+                Toggle(isOn: $showCard) {
                     
                 }
                 .labelsHidden()
             }
+            Group {
+                menuButton(titleName: "小音乐图:sfImage", showDivider: true) {
+                    Spacer()
+                } MainTitle2: {
+                    Spacer()
+                } content: {
+                    TextField("music.note", text: $musicLogo)
+                }
+            }
+            Group {
+                menuButton(titleName: "用刘海更改音量和亮度", showDivider: true) {
+                    Spacer()
+                } MainTitle2: {
+                    Spacer()
+                } content: {
+                    Toggle(isOn: $appObserver.mediashow) {
+                        
+                    }
+                    .labelsHidden()
+                }
+                .onChange(of: appObserver.mediashow, perform: { value in
+                    appObserver.setvolume()
+                })
+                
+                menuButton(titleName: "显示器是否具有刘海", showDivider: true) {
+                    Spacer()
+                } MainTitle2: {
+                    Spacer()
+                } content: {
+                    Toggle(isOn: $defautBangs) {
+                        
+                    }
+                    .labelsHidden()
+                }
+                menuButton(titleName: "音量提醒音", showDivider: true) {
+                    Spacer()
+                } MainTitle2: {
+                    Spacer()
+                } content: {
+                    Menu(list[playID] ?? "", content: {
+                        ForEach(Array(list.keys), id: \.self) { key in
+                            Button(list[key]!) {
+                                playID = key
+                            }
+                        }
+                    })
+                }
+                .padding(.bottom, 55)
+            }
+            
         }
         .frame(minWidth: 450, minHeight: 300)
     }
@@ -104,4 +175,11 @@ struct SettingView: View {
 
 #Preview {
     SettingView()
+}
+
+private func getSystemSoundFileEnumerator() -> FileManager.DirectoryEnumerator? {
+    guard let libraryDirectory = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .systemDomainMask, true).first,
+          let soundsDirectory = NSURL(string: libraryDirectory)?.appendingPathComponent("Sounds"),
+          let soundFileEnumerator = FileManager.default.enumerator(at: soundsDirectory, includingPropertiesForKeys: nil) else { return nil }
+    return soundFileEnumerator
 }

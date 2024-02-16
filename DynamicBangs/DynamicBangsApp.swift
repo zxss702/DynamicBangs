@@ -14,6 +14,7 @@ import CoreGraphics
 import MediaKeyTap
 import Foundation
 import IOKit.ps
+import AVFoundation
 
 enum BatteryError: Error { case error }
 
@@ -28,71 +29,19 @@ struct mediaInfoFunction: Equatable {
     var nowTime: Double = 0
 }
 
-struct volumeInfoFunction: Equatable {
-    var volome: Float
+protocol InfoFunctionFloat: Equatable {
+    var value: Float { get set }
+    var fullType: Int { get set }
+}
+
+struct volumeInfoFunction: InfoFunctionFloat {
+    var value: Float
     var fullType: Int = 0
 }
-struct BrightInfoFunction: Equatable {
-    var bright: Float
+struct BrightInfoFunction: InfoFunctionFloat {
+    var value: Float
     var fullType: Int = 0
 }
-// 定义CoreDisplay_Display_SetUserBrightness函数的类型
-typealias CoreDisplay_Display_SetUserBrightness = @convention(c) (CGDirectDisplayID, Double) -> Void
-
-// 动态加载CoreDisplay框架并尝试调用CoreDisplay_Display_SetUserBrightness函数
-func setBrightnessForAllDisplays(brightness: Float) {
-    DispatchQueue.main.async {
-        // 动态加载CoreDisplay框架
-        guard let coreDisplay = dlopen("/System/Library/Frameworks/CoreDisplay.framework/CoreDisplay", RTLD_NOW) else {
-            print("Failed to load CoreDisplay.framework")
-            return
-        }
-        // 尝试获取CoreDisplay_Display_SetUserBrightness函数的地址
-        guard let CDSetUserBrightness = dlsym(coreDisplay, "CoreDisplay_Display_SetUserBrightness") else {
-            print("Failed to locate CoreDisplay_Display_SetUserBrightness")
-            dlclose(coreDisplay)
-            return
-        }
-        
-        // 将函数地址转换为Swift可调用的函数
-        let setUserBrightness = unsafeBitCast(CDSetUserBrightness, to: CoreDisplay_Display_SetUserBrightness.self)
-        
-        // 获取所有活动显示器的ID并设置亮度
-        let displayIDs = NSScreen.screens.map { ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as! NSNumber).uint32Value }
-        for displayID in displayIDs {
-            setUserBrightness(displayID, Double(brightness))
-        }
-        
-        //    // 卸载CoreDisplay框架
-        dlclose(coreDisplay)
-    }
-}
-
-//typealias setBrightness = @convention(c) (Float) -> Void
-
-//func setKeyBrightness(brightness: Float) {
-//    // 动态加载CoreBrightness框架
-//    guard let coreBrightness = dlopen("/System/Library/PrivateFrameworks/CoreBrightness.framework/CoreBrightness", RTLD_NOW) else {
-//        print("Failed to load CoreBrightness.framework")
-//        return
-//    }
-//    
-//    // 尝试获取设置键盘亮度的函数地址，这里使用伪函数名作为示例
-//    guard let setKeyboardBrightnessFunction = dlsym(coreBrightness, "CBSetKeyboardBrightness") else {
-//        print("Failed to locate the function to set keyboard brightness")
-//        dlclose(coreBrightness)
-//        return
-//    }
-//    
-//    // 将函数地址转换为Swift可调用的函数
-//    let function = unsafeBitCast(setKeyboardBrightnessFunction, to: (@convention(c) (Float) -> Void).self)
-//    
-//    // 调用函数设置键盘亮度
-//    function(brightness)
-//    
-//    // 卸载CoreBrightness框架
-//    dlclose(coreBrightness)
-//}
 
 struct ChargingInfoFunction: Equatable {
     var isCharging: Bool = false
@@ -100,18 +49,19 @@ struct ChargingInfoFunction: Equatable {
     var beter: Int = 0
     var fullType: Int = 10
 }
+
 class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
     var windows:[NSWindow] = []
     
     @Published var media:mediaInfoFunction?
-    @Published var volume:volumeInfoFunction
+    @Published var volume:volumeInfoFunction?
     @Published var bright:BrightInfoFunction?
     @Published var keyBright:BrightInfoFunction?
     @Published var isCharging:ChargingInfoFunction = ChargingInfoFunction()
     
     @Published var showWhite = false
     override init() {
-        volume = volumeInfoFunction(volome: Sound.output.volume, fullType: 10)
+        volume = volumeInfoFunction(value: Sound.output.volume, fullType: 10)
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(setWindow), name: NSApplication.didChangeScreenParametersNotification, object: nil)
         
@@ -128,6 +78,7 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
         upDateMedia()
         DispatchQueue.main.async { [self] in
             setWindow()
+            app.applicationDidFinishLaunching()
         }
         setTime()
     }
@@ -137,30 +88,36 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
     }
     
     var mediaKeyTap: MediaKeyTap?
+    @AppStorage("showMedia") var mediashow = true
+    @AppStorage("palyID") var playID: Int = 1
     
     func handle(mediaKey: MediaKey, event: KeyEvent?, modifiers: NSEvent.ModifierFlags?) {
         switch mediaKey {
         case .brightnessUp:
-            self.bright = BrightInfoFunction(bright: min((self.bright?.bright ?? 1) + 0.0625, 1))
-            setBrightnessForAllDisplays(brightness: (self.bright?.bright ?? 1))
+            self.bright = BrightInfoFunction(value: max(min((self.bright?.value ?? 1) + 0.0625, 1), 0))
+            DisplayManager.shared.getAllDisplays().forEach { Display in
+                _ = Display.setBrightness((self.bright?.value ?? 1))
+            }
         case .brightnessDown:
-            self.bright = BrightInfoFunction(bright: max((self.bright?.bright ?? 1) - 0.0625, 0))
-            setBrightnessForAllDisplays(brightness: (self.bright?.bright ?? 1))
+            self.bright = BrightInfoFunction(value: max(min((self.bright?.value ?? 1) - 0.0625, 1), 0))
+            DisplayManager.shared.getAllDisplays().forEach { Display in
+                _ = Display.setBrightness((self.bright?.value ?? 1))
+            }
         case .volumeUp:
-            try? Sound.output.setVolume(Sound.output.volume + 0.0625)
-            self.volume = volumeInfoFunction(volome: Sound.output.volume)
+            try? Sound.output.setVolume(min(max(Sound.output.volume + 0.0625, 0), 1))
+            self.volume = volumeInfoFunction(value: Sound.output.volume)
+            AudioServicesPlaySystemSound(SystemSoundID(playID))
         case .volumeDown:
-            try? Sound.output.setVolume(Sound.output.volume - 0.0625)
-            self.volume = volumeInfoFunction(volome: Sound.output.volume)
+            try? Sound.output.setVolume(min(max(Sound.output.volume - 0.0625, 0), 1))
+            self.volume = volumeInfoFunction(value: Sound.output.volume)
+            AudioServicesPlaySystemSound(SystemSoundID(playID))
         case .mute:
             try? Sound.output.mute(!Sound.output.isMuted)
-            self.volume = volumeInfoFunction(volome: Sound.output.isMuted ? 0 : Sound.output.volume)
+            self.volume = volumeInfoFunction(value: Sound.output.isMuted ? 0 : Sound.output.volume)
         case .backlightUP:
-            self.keyBright = BrightInfoFunction(bright: min((self.keyBright?.bright ?? 1) + 0.0625, 1))
-//            setKeyBrightness(brightness: (self.keyBright?.bright ?? 1))
+            self.keyBright = BrightInfoFunction(value: min((self.keyBright?.value ?? 1) + 0.0625, 1))
         case .backlightDown:
-            self.keyBright = BrightInfoFunction(bright: max((self.keyBright?.bright ?? 1) - 0.0625, 0))
-//            setKeyBrightness(brightness: (self.keyBright?.bright ?? 1))
+            self.keyBright = BrightInfoFunction(value: max((self.keyBright?.value ?? 1) - 0.0625, 0))
         default:
             break
         }
@@ -205,8 +162,11 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
     }
     
     func setvolume() {
-        mediaKeyTap = MediaKeyTap(delegate: self, for: [.volumeUp, .volumeDown, .mute, .brightnessUp, .brightnessDown], observeBuiltIn: true)//.brightnessUp, .brightnessDown, .backlightDown, .backlightUP])
-        mediaKeyTap?.start()
+        mediaKeyTap?.stop()
+        if mediashow {
+            mediaKeyTap = MediaKeyTap(delegate: self, for: [.volumeUp, .volumeDown, .mute, .brightnessUp, .brightnessDown], observeBuiltIn: true)//.brightnessUp, .brightnessDown, .backlightDown, .backlightUP])
+            mediaKeyTap?.start()
+        }
     }
     
     @objc func upDateMedia() {
@@ -260,8 +220,10 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] Timer in
             self.media?.fullType += 1
             
-            if self.volume.fullType < 10 {
-                self.volume.fullType += 1
+            if self.volume?.fullType ?? 10 < 10 {
+                self.volume?.fullType += 1
+            } else {
+                self.volume = nil
             }
             if self.bright?.fullType ?? 10 < 10 {
                 self.bright?.fullType += 1
@@ -342,4 +304,12 @@ struct DynamicBangsApp: App {
         }
         .menuBarExtraStyle(.window)
     }
+}
+
+func avg(_ values: [Float]) -> Float {
+    var count:Float = 0
+    values.forEach { Float in
+        count += Float
+    }
+    return count / Float(values.count)
 }

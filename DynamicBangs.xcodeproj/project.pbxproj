@@ -3,10 +3,27 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14089BB52B7DA70C00C7B89E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14089BA42B7DA70C00C7B89E /* AppDelegate.swift */; };
+		14089BB62B7DA70C00C7B89E /* DisplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14089BA62B7DA70C00C7B89E /* DisplayManager.swift */; };
+		14089BBA2B7DA70C00C7B89E /* CGDirectDisplayID+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14089BAB2B7DA70C00C7B89E /* CGDirectDisplayID+Extension.swift */; };
+		14089BBC2B7DA70C00C7B89E /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14089BAD2B7DA70C00C7B89E /* NSScreen+Extension.swift */; };
+		14089BBE2B7DA70C00C7B89E /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14089BB02B7DA70C00C7B89E /* Command.swift */; };
+		14089BC02B7DA70C00C7B89E /* Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14089BB32B7DA70C00C7B89E /* Display.swift */; };
+		14225EE02B7F37B7001DF906 /* Ex-View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EDF2B7F37B7001DF906 /* Ex-View.swift */; };
+		14225EE32B7F37D6001DF906 /* BangsShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EE22B7F37D6001DF906 /* BangsShape.swift */; };
+		14225EE52B7F37E7001DF906 /* musicImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EE42B7F37E7001DF906 /* musicImageView.swift */; };
+		14225EE72B7F37FB001DF906 /* islandContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EE62B7F37FB001DF906 /* islandContentView.swift */; };
+		14225EE92B7F3803001DF906 /* isLandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EE82B7F3803001DF906 /* isLandView.swift */; };
+		14225EEB2B7F3861001DF906 /* mediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EEA2B7F3861001DF906 /* mediaView.swift */; };
+		14225EED2B7F39E4001DF906 /* InfoFunctionFloatSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EEC2B7F39E4001DF906 /* InfoFunctionFloatSetView.swift */; };
+		14225EF22B7F402B001DF906 /* RectPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EEE2B7F402B001DF906 /* RectPreferenceKey.swift */; };
+		14225EF32B7F402B001DF906 /* SizePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EEF2B7F402B001DF906 /* SizePreferenceKey.swift */; };
+		14225EF42B7F402B001DF906 /* View+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EF02B7F402B001DF906 /* View+Geometry.swift */; };
+		14225EF62B7F4667001DF906 /* BetterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14225EF52B7F4667001DF906 /* BetterInfoView.swift */; };
 		1495E7D12B7A291100A7F384 /* menuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1495E7D02B7A291100A7F384 /* menuButton.swift */; };
 		1495E7D72B7A405500A7F384 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1495E7D22B7A405500A7F384 /* Sound.swift */; };
 		1495E7D82B7A405500A7F384 /* SoundOutputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1495E7D32B7A405500A7F384 /* SoundOutputManager.swift */; };
@@ -36,6 +53,24 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		14089BA42B7DA70C00C7B89E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		14089BA52B7DA70C00C7B89E /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		14089BA62B7DA70C00C7B89E /* DisplayManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayManager.swift; sourceTree = "<group>"; };
+		14089BAB2B7DA70C00C7B89E /* CGDirectDisplayID+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGDirectDisplayID+Extension.swift"; sourceTree = "<group>"; };
+		14089BAD2B7DA70C00C7B89E /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
+		14089BB02B7DA70C00C7B89E /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		14089BB32B7DA70C00C7B89E /* Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Display.swift; sourceTree = "<group>"; };
+		14225EDF2B7F37B7001DF906 /* Ex-View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex-View.swift"; sourceTree = "<group>"; };
+		14225EE22B7F37D6001DF906 /* BangsShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BangsShape.swift; sourceTree = "<group>"; };
+		14225EE42B7F37E7001DF906 /* musicImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = musicImageView.swift; sourceTree = "<group>"; };
+		14225EE62B7F37FB001DF906 /* islandContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = islandContentView.swift; sourceTree = "<group>"; };
+		14225EE82B7F3803001DF906 /* isLandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = isLandView.swift; sourceTree = "<group>"; };
+		14225EEA2B7F3861001DF906 /* mediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mediaView.swift; sourceTree = "<group>"; };
+		14225EEC2B7F39E4001DF906 /* InfoFunctionFloatSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoFunctionFloatSetView.swift; sourceTree = "<group>"; };
+		14225EEE2B7F402B001DF906 /* RectPreferenceKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreferenceKey.swift; sourceTree = "<group>"; };
+		14225EEF2B7F402B001DF906 /* SizePreferenceKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizePreferenceKey.swift; sourceTree = "<group>"; };
+		14225EF02B7F402B001DF906 /* View+Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Geometry.swift"; sourceTree = "<group>"; };
+		14225EF52B7F4667001DF906 /* BetterInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetterInfoView.swift; sourceTree = "<group>"; };
 		1495E7D02B7A291100A7F384 /* menuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = menuButton.swift; sourceTree = "<group>"; };
 		1495E7D22B7A405500A7F384 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		1495E7D32B7A405500A7F384 /* SoundOutputManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundOutputManager.swift; sourceTree = "<group>"; };
@@ -65,6 +100,76 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14089BA32B7DA02400C7B89E /* MCL */ = {
+			isa = PBXGroup;
+			children = (
+				14089BB22B7DA70C00C7B89E /* Enums */,
+				14089BAF2B7DA70C00C7B89E /* Extensions */,
+				14089BB42B7DA70C00C7B89E /* Model */,
+				14089BAA2B7DA70C00C7B89E /* Support */,
+			);
+			path = MCL;
+			sourceTree = "<group>";
+		};
+		14089BAA2B7DA70C00C7B89E /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				14089BA42B7DA70C00C7B89E /* AppDelegate.swift */,
+				14089BA52B7DA70C00C7B89E /* Bridging-Header.h */,
+				14089BA62B7DA70C00C7B89E /* DisplayManager.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		14089BAF2B7DA70C00C7B89E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				14089BAB2B7DA70C00C7B89E /* CGDirectDisplayID+Extension.swift */,
+				14089BAD2B7DA70C00C7B89E /* NSScreen+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		14089BB22B7DA70C00C7B89E /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				14089BB02B7DA70C00C7B89E /* Command.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		14089BB42B7DA70C00C7B89E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				14089BB32B7DA70C00C7B89E /* Display.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		14225EE12B7F37C8001DF906 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				14225EEA2B7F3861001DF906 /* mediaView.swift */,
+				14225EF52B7F4667001DF906 /* BetterInfoView.swift */,
+				14225EEC2B7F39E4001DF906 /* InfoFunctionFloatSetView.swift */,
+				14225EE82B7F3803001DF906 /* isLandView.swift */,
+				14225EE62B7F37FB001DF906 /* islandContentView.swift */,
+				14225EE42B7F37E7001DF906 /* musicImageView.swift */,
+				14225EE22B7F37D6001DF906 /* BangsShape.swift */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		14225EF12B7F402B001DF906 /* PreferenceKey */ = {
+			isa = PBXGroup;
+			children = (
+				14225EEE2B7F402B001DF906 /* RectPreferenceKey.swift */,
+				14225EEF2B7F402B001DF906 /* SizePreferenceKey.swift */,
+				14225EF02B7F402B001DF906 /* View+Geometry.swift */,
+			);
+			path = PreferenceKey;
+			sourceTree = "<group>";
+		};
 		1495E7D62B7A405500A7F384 /* ISSoundAdditions */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,9 +210,13 @@
 			children = (
 				1495E7E02B7B0AEA00A7F384 /* Info.plist */,
 				14CDE3F92B7A0F6200426E02 /* DynamicBangsApp.swift */,
+				14089BA32B7DA02400C7B89E /* MCL */,
 				14CDE4082B7A0F8500426E02 /* SettingView.swift */,
 				1495E7D02B7A291100A7F384 /* menuButton.swift */,
 				14CDE3FB2B7A0F6200426E02 /* ContentView.swift */,
+				14225EF12B7F402B001DF906 /* PreferenceKey */,
+				14225EE12B7F37C8001DF906 /* Content */,
+				14225EDF2B7F37B7001DF906 /* Ex-View.swift */,
 				14CDE3FD2B7A0F6400426E02 /* Assets.xcassets */,
 				14CDE4022B7A0F6400426E02 /* DynamicBangs.entitlements */,
 				1495E7D62B7A405500A7F384 /* ISSoundAdditions */,
@@ -167,7 +276,7 @@
 				};
 			};
 			buildConfigurationList = 14CDE3F12B7A0F6200426E02 /* Build configuration list for PBXProject "DynamicBangs" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -206,12 +315,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				1495E7D72B7A405500A7F384 /* Sound.swift in Sources */,
+				14225EE92B7F3803001DF906 /* isLandView.swift in Sources */,
 				1495E7D12B7A291100A7F384 /* menuButton.swift in Sources */,
+				14225EF32B7F402B001DF906 /* SizePreferenceKey.swift in Sources */,
 				14CDE4092B7A0F8500426E02 /* SettingView.swift in Sources */,
+				14089BBE2B7DA70C00C7B89E /* Command.swift in Sources */,
+				14225EED2B7F39E4001DF906 /* InfoFunctionFloatSetView.swift in Sources */,
+				14225EE02B7F37B7001DF906 /* Ex-View.swift in Sources */,
+				14225EEB2B7F3861001DF906 /* mediaView.swift in Sources */,
+				14089BBA2B7DA70C00C7B89E /* CGDirectDisplayID+Extension.swift in Sources */,
+				14089BB52B7DA70C00C7B89E /* AppDelegate.swift in Sources */,
+				14225EE52B7F37E7001DF906 /* musicImageView.swift in Sources */,
+				14225EE32B7F37D6001DF906 /* BangsShape.swift in Sources */,
 				1495E7DA2B7A405500A7F384 /* SoundOutputManager+Properties.swift in Sources */,
+				14089BC02B7DA70C00C7B89E /* Display.swift in Sources */,
 				14CDE3FC2B7A0F6200426E02 /* ContentView.swift in Sources */,
+				14225EF42B7F402B001DF906 /* View+Geometry.swift in Sources */,
+				14089BB62B7DA70C00C7B89E /* DisplayManager.swift in Sources */,
+				14225EE72B7F37FB001DF906 /* islandContentView.swift in Sources */,
+				14089BBC2B7DA70C00C7B89E /* NSScreen+Extension.swift in Sources */,
 				1495E7D82B7A405500A7F384 /* SoundOutputManager.swift in Sources */,
+				14225EF62B7F4667001DF906 /* BetterInfoView.swift in Sources */,
 				14CDE3FA2B7A0F6200426E02 /* DynamicBangsApp.swift in Sources */,
+				14225EF22B7F402B001DF906 /* RectPreferenceKey.swift in Sources */,
 				1495E7D92B7A405500A7F384 /* SoundOutputManager+Goodies.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,6 +484,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DynamicBangs/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "灵动刘海";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "提供定制的刘海音量调整";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -366,7 +493,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -397,6 +524,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DynamicBangs/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "灵动刘海";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "提供定制的刘海音量调整";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -405,7 +533,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
