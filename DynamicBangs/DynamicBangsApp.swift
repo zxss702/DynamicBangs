@@ -11,7 +11,6 @@ import Cocoa
 import Foundation
 import os.log
 import CoreGraphics
-import MediaKeyTap
 import Foundation
 import IOKit.ps
 import AVFoundation
