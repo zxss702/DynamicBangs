@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -276,7 +276,7 @@
 				};
 			};
 			buildConfigurationList = 14CDE3F12B7A0F6200426E02 /* Build configuration list for PBXProject "DynamicBangs" */;
-			compatibilityVersion = "Xcode 15.3";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -485,6 +485,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DynamicBangs/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "灵动刘海";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "提供定制的刘海音量调整";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -525,6 +526,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DynamicBangs/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "灵动刘海";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "提供定制的刘海音量调整";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
