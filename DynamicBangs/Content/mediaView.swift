@@ -168,7 +168,7 @@ struct mediaInfoImage: View {
     
     @Binding var isHover: Bool
     var body: some View {
-        if let media = media, (isHover || media.fullType < 5) {
+        if let media = media, (isHover || media.fullType < 6) {
             ZStack {
                 if media.image != nil {
                     media.image!
