@@ -1,5 +1,4 @@
 {
-  "originHash" : "684ae7144bddf607010bcc5ab24e9ff5ff7915b6066c12823a558a89447b4813",
   "pins" : [
     {
       "identity" : "mediaremote",
@@ -20,5 +19,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }
