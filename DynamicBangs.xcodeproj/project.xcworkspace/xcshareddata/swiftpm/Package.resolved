@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/PrivateFrameworks/MediaRemote",
       "state" : {
-        "revision" : "ee5ae0cc17c0f759049d50e6ea95e1cf718dfda5",
-        "version" : "0.1.0"
+        "branch" : "master",
+        "revision" : "5c10fd20fd6b1ef10d912f3bcb9037b1f61efb9e"
       }
     },
     {
