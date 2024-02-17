@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1495C1372B806BC200CD554B /* MediaRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 1495C1362B806BC200CD554B /* MediaRemote */; };
-		1495C1392B806BC200CD554B /* PrivateMediaRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 1495C1382B806BC200CD554B /* PrivateMediaRemote */; };
+		14102DA72B8081020011A842 /* MediaRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 14102DA62B8081020011A842 /* MediaRemote */; };
+		14513C4D2B80722400446074 /* PrivateMediaRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 14513C4C2B80722400446074 /* PrivateMediaRemote */; };
 		149C12722B805C6A0092F102 /* DynamicBangsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12712B805C6A0092F102 /* DynamicBangsApp.swift */; };
 		149C12742B805C6A0092F102 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12732B805C6A0092F102 /* ContentView.swift */; };
 		149C12762B805C6C0092F102 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 149C12752B805C6C0092F102 /* Assets.xcassets */; };
@@ -86,8 +86,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1495C1372B806BC200CD554B /* MediaRemote in Frameworks */,
-				1495C1392B806BC200CD554B /* PrivateMediaRemote in Frameworks */,
+				14513C4D2B80722400446074 /* PrivateMediaRemote in Frameworks */,
+				14102DA72B8081020011A842 /* MediaRemote in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,8 +257,8 @@
 			);
 			name = DynamicBangs;
 			packageProductDependencies = (
-				1495C1362B806BC200CD554B /* MediaRemote */,
-				1495C1382B806BC200CD554B /* PrivateMediaRemote */,
+				14513C4C2B80722400446074 /* PrivateMediaRemote */,
+				14102DA62B8081020011A842 /* MediaRemote */,
 			);
 			productName = DynamicBangs;
 			productReference = 149C126E2B805C6A0092F102 /* DynamicBangs.app */;
@@ -276,6 +276,7 @@
 				TargetAttributes = {
 					149C126D2B805C6A0092F102 = {
 						CreatedOnToolsVersion = 15.2;
+						LastSwiftMigration = 1520;
 					};
 				};
 			};
@@ -289,7 +290,7 @@
 			);
 			mainGroup = 149C12652B805C6A0092F102;
 			packageReferences = (
-				1495C1352B806BC200CD554B /* XCRemoteSwiftPackageReference "MediaRemote" */,
+				14513BD42B80709F00446074 /* XCRemoteSwiftPackageReference "MediaRemote" */,
 			);
 			productRefGroup = 149C126F2B805C6A0092F102 /* Products */;
 			projectDirPath = "";
@@ -475,8 +476,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DynamicBangs/DynamicBangs.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -499,6 +501,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -508,8 +512,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DynamicBangs/DynamicBangs.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -532,6 +537,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -560,25 +566,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1495C1352B806BC200CD554B /* XCRemoteSwiftPackageReference "MediaRemote" */ = {
+		14513BD42B80709F00446074 /* XCRemoteSwiftPackageReference "MediaRemote" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/PrivateFrameworks/MediaRemote";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1495C1362B806BC200CD554B /* MediaRemote */ = {
+		14102DA62B8081020011A842 /* MediaRemote */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1495C1352B806BC200CD554B /* XCRemoteSwiftPackageReference "MediaRemote" */;
+			package = 14513BD42B80709F00446074 /* XCRemoteSwiftPackageReference "MediaRemote" */;
 			productName = MediaRemote;
 		};
-		1495C1382B806BC200CD554B /* PrivateMediaRemote */ = {
+		14513C4C2B80722400446074 /* PrivateMediaRemote */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1495C1352B806BC200CD554B /* XCRemoteSwiftPackageReference "MediaRemote" */;
+			package = 14513BD42B80709F00446074 /* XCRemoteSwiftPackageReference "MediaRemote" */;
 			productName = PrivateMediaRemote;
 		};
 /* End XCSwiftPackageProductDependency section */

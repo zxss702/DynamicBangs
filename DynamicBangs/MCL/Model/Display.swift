@@ -61,19 +61,20 @@ class Display: Equatable {
         self.swBrightnessSemaphore.wait()
         let brightnessValue = max(min(1, value), 0)
         guard !self.isDummy else {
-            self.swBrightnessSemaphore.signal()
-            return true
+          self.swBrightnessSemaphore.signal()
+          return true
         }
+        var newValue = brightnessValue
         if self.isVirtual {
-            self.swBrightnessSemaphore.signal()
-            return DisplayManager.shared.setShadeAlpha(value: 1 - brightnessValue, displayID: DisplayManager.resolveEffectiveDisplayID(self.identifier))
+          self.swBrightnessSemaphore.signal()
+          return DisplayManager.shared.setShadeAlpha(value: 1 - newValue, displayID: DisplayManager.resolveEffectiveDisplayID(self.identifier))
         } else {
-            let gammaTableRed = self.defaultGammaTableRed.map { $0 * brightnessValue }
-            let gammaTableGreen = self.defaultGammaTableGreen.map { $0 * brightnessValue }
-            let gammaTableBlue = self.defaultGammaTableBlue.map { $0 * brightnessValue }
-            DisplayManager.shared.moveGammaActivityEnforcer(displayID: self.identifier)
-            CGSetDisplayTransferByTable(self.identifier, self.defaultGammaTableSampleCount, gammaTableRed, gammaTableGreen, gammaTableBlue)
-            DisplayManager.shared.enforceGammaActivity()
+          let gammaTableRed = self.defaultGammaTableRed.map { $0 * newValue }
+          let gammaTableGreen = self.defaultGammaTableGreen.map { $0 * newValue }
+          let gammaTableBlue = self.defaultGammaTableBlue.map { $0 * newValue }
+          DisplayManager.shared.moveGammaActivityEnforcer(displayID: self.identifier)
+          CGSetDisplayTransferByTable(self.identifier, self.defaultGammaTableSampleCount, gammaTableRed, gammaTableGreen, gammaTableBlue)
+          DisplayManager.shared.enforceGammaActivity()
         }
         self.swBrightnessSemaphore.signal()
         return true
