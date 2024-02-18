@@ -24,7 +24,6 @@ struct islandContentView: View {
     @AppStorage("defautBangs") var defautBangs = true
     @AppStorage("noLiveToHide") var noLiveToHide = false
     
-    @Environment(\.openWindow) var openWindow
     
     var body: some View {
         VStack(alignment: .center, spacing: 1) {
@@ -81,7 +80,7 @@ struct islandContentView: View {
         .frame(minWidth: BangsWidth)
         
         .scaleEffect(x: isHover ? 1.1 : 1, y: isHover ? 1.1 : 1, anchor: .top)
-        .scaleEffect(x: isLongTap ? 1.1 : 1, y: isLongTap ? 1.1 : 1, anchor: .top)
+        .scaleEffect(x: ShowSetting ? 1.1 : 1, y: ShowSetting ? 1.1 : 1, anchor: .top)
         
         .padding(.top, 5)
         .scaleEffect(x: noLiveToHide ? ((addHeight != 0 || isHover) ? 1 : 0) : 1, y: noLiveToHide ? ((addHeight != 0 || isHover) ? 1 : 0) : 1, anchor: .top)
@@ -96,10 +95,10 @@ struct islandContentView: View {
             isTap = true
         }
         .onLongPressGesture(minimumDuration: 1, maximumDistance: .infinity) {
-            openWindow.callAsFunction(id: "灵动刘海设置")
+            appObserver.setSettingWindows()
         } onPressingChanged: { Bool in
-            isLongTap = Bool
             ShowSetting = false
+            isLongTap = Bool
             if Bool {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     ShowSetting = isLongTap

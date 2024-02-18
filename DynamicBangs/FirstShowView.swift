@@ -345,9 +345,9 @@ struct FirstShowView: View {
 
 struct findinmeda: View {
     @State var show小红书 = false
-    @State var show抖音 = false
+    @State var show抖音 = true
     @State var show企业微信 = false
-    var big = false
+    var big = true
     @Namespace var nameSpace
     var body: some View {
         HStack {
@@ -361,7 +361,7 @@ struct findinmeda: View {
                     Image("logo_xhs")
                         .resizable()
                         .clipShape(Circle())
-                        .frame(width: 75, height: 75)
+                        .frame(width: big ? 75 : 50, height: big ? 75 : 50)
                 }
                 .matchedGeometryEffect(id: "xhs", in: nameSpace)
             } else {
@@ -381,7 +381,7 @@ struct findinmeda: View {
                     Image("logo_dy")
                         .resizable()
                         .clipShape(Circle())
-                        .frame(width: 75, height: 75)
+                        .frame(width: big ? 75 : 50, height: big ? 75 : 50)
                 }
                 .matchedGeometryEffect(id: "dy", in: nameSpace)
             } else {
@@ -401,7 +401,7 @@ struct findinmeda: View {
                     Image("企业微信")
                         .resizable()
                         .clipShape(Circle())
-                        .frame(width: 75, height: 75)
+                        .frame(width: big ? 75 : 50, height: big ? 75 : 50)
                 }
                 .matchedGeometryEffect(id: "qw", in: nameSpace)
             } else {

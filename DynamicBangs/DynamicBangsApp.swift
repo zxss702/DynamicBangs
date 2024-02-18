@@ -48,6 +48,39 @@ struct ChargingInfoFunction: Equatable {
     var fullType: Int = 10
 }
 
+struct settingHelperView: View {
+    
+    @State var show = false
+    let settingWindow:NSWindow?
+    
+    var body: some View {
+        RoundedRectangle(cornerRadius: 17)
+            .foregroundStyle(.ultraThinMaterial)
+            .frame(maxWidth: 350, maxHeight: 550)
+            .overlay {
+                SettingView(show: $show, settingWindow: settingWindow)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 17))
+            .padding(.all)
+            .shadow(radius: 0.6)
+            .shadow(radius: 34)
+            .offset(x: show ? 0 : -400)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    withAnimation(.spring()) {
+                        show = true
+                    }
+                }
+            }
+    }
+}
+
+struct mediaAppCanShow: Codable, Identifiable {
+    var id: String
+    var canShow: Bool = true
+}
+
 class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
     var windows:[NSWindow] = []
     
@@ -56,11 +89,39 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
     @Published var bright:BrightInfoFunction?
     @Published var keyBright:BrightInfoFunction?
     @Published var isCharging:ChargingInfoFunction = ChargingInfoFunction()
+    @Published var isSettingOpen = false
+    
+    func setSettingWindows() {
+        if !isSettingOpen {
+            isSettingOpen = true
+            guard let i = NSScreen.main else { return }
+            let BangsWindow = NotchWindow()
+            let hostionViewController = NSHostingController(
+                rootView: settingHelperView(settingWindow: BangsWindow).environmentObject(self)
+            )
+            BangsWindow.targetScreen = i
+            BangsWindow.contentViewController = hostionViewController
+            BangsWindow.styleMask = [.borderless, .nonactivatingPanel]
+            BangsWindow.backingType = .buffered
+            BangsWindow.backgroundColor = .clear
+            BangsWindow.hasShadow = false
+            BangsWindow.level = .screenSaver
+            BangsWindow.collectionBehavior =  [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
+            BangsWindow.setFrame(i.frame, display: true)
+            let notchWindowController = NSWindowController()
+            notchWindowController.contentViewController = BangsWindow.contentViewController
+            
+            notchWindowController.window = BangsWindow
+            
+            notchWindowController.showWindow(self)
+        }
+    }
     
     @Published var showWhite = false
     override init() {
         volume = volumeInfoFunction(value: Sound.output.volume, fullType: 10)
         super.init()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(setWindow), name: NSApplication.didChangeScreenParametersNotification, object: nil)
         
         MRMediaRemoteRegisterForNowPlayingNotifications(.main)
@@ -76,6 +137,9 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
         upDateMedia()
         DispatchQueue.main.async { [self] in
             setWindow()
+            if !firstShow {
+                setSettingWindows()
+            }
             app.applicationDidFinishLaunching()
         }
         setTime()
@@ -166,6 +230,7 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
             mediaKeyTap?.start()
         }
     }
+    @AppStorage("showImageList") var showImageListData:Data = Data()
     
     @objc func upDateMedia() {
         MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main, { (information) in
@@ -182,7 +247,24 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
                         self.media?.Artist = Artist
                         self.media?.Artist2 = Artist2
                     }
-                    self.media?.fullType = 0
+                    self.media?.fullType = 10
+                    MRMediaRemoteGetNowPlayingClient(.main) { MRNowPlayingClientProtobuf in
+                        if let id = MRNowPlayingClientProtobuf?.bundleIdentifier {
+                            var showImageList:[mediaAppCanShow] = (try? PropertyListDecoder().decode([mediaAppCanShow].self, from: self.showImageListData)) ?? []
+                            if let ff = showImageList.first(where: { mediaAppCanShow in
+                                mediaAppCanShow.id == id
+                            }) {
+                                if ff.canShow {
+                                    self.media?.fullType = 0
+                                }
+                            } else {
+                                showImageList.append(mediaAppCanShow(id: id, canShow: true))
+                                self.media?.fullType = 0
+                            }
+                            self.showImageListData = (try? PropertyListEncoder().encode(showImageList)) ?? Data()
+                            print(showImageList)
+                        }
+                    }
                     self.media?.image = nil
                     if let data = information[kMRMediaRemoteNowPlayingInfoArtworkData] as? Data {
                         let artwork = NSImage(data: data)
@@ -216,8 +298,21 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
     
     func setTime() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] Timer in
-            self.media?.fullType += 1
             
+            if self.media != nil {
+                self.media?.fullType += 1
+                MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main, { (information) in
+                    if let information = information {
+                        if
+                            let allTime = information[kMRMediaRemoteNowPlayingInfoDuration] as? Double,
+                            let nowTime = information[kMRMediaRemoteNowPlayingInfoElapsedTime] as? Double
+                        {
+                            self.media?.fullTime = allTime
+                            self.media?.nowTime = nowTime
+                        }
+                    }
+                })
+            }
             if self.volume?.fullType ?? 10 < 10 {
                 self.volume?.fullType += 1
             } else {
@@ -271,8 +366,8 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
                 windows.append(BangsWindow)
             }
         } else {
-            for item in windows {
-                item.close()
+            windows.forEach { NSWindow in
+                NSWindow.close()
             }
             windows.removeAll()
             for i in NSScreen.screens {
@@ -316,17 +411,10 @@ struct DynamicBangsApp: App {
     @StateObject var appObserver = AppObserver()
     
     var body: some Scene {
-        Window(Text("灵动刘海设置"), id: "灵动刘海设置") {
-            SettingView()
+        Settings {
+            SettingView(show: .constant(true))
                 .environmentObject(appObserver)
-                .overlay(alignment: .bottomLeading) {
-                    Button("退出程序") {
-                        NSApplication.shared.terminate(nil)
-                    }
-                    .padding(.all)
-                }
         }
-        .windowStyle(.hiddenTitleBar)
     }
 }
 

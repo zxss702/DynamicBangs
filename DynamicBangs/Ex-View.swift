@@ -90,3 +90,48 @@ extension AnyTransition {
     }
 }
 
+
+extension View {
+    func EditViewLabelStyle(_ padding: Bool = false, color: Color = Color.init(nsColor: .windowBackgroundColor)) -> some View {
+        self
+            .frame(minWidth: 27, minHeight: 27)
+            .padding([.leading, .trailing], padding ? 11 : 0)
+            .background(color)
+            .clipShape(Capsule(style: .continuous))
+    }
+    func EditShadow() -> some View {
+        self
+            .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.1), radius: 0.3)
+            .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.1), radius: 8)
+    }
+}
+
+extension View {
+    func ifMode(@ViewBuilder ifAction: (AnyView) -> some View) -> some View {
+        ifAction(AnyView(self))
+    }
+    
+    @ViewBuilder
+    func provided(_ Bool: Bool, _ ifAction: (AnyView) -> some View, else elseAction: (AnyView) -> some View = { AnyView in return AnyView}) -> some View {
+        if Bool {
+            ifAction(AnyView(self))
+        } else {
+            elseAction(AnyView(self))
+        }
+    }
+    
+    
+    func shadow(Ofset: CGPoint = .zero) -> some View {
+        self
+            .shadow(radius: 0.3)
+            .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.2), radius: 35, x: Ofset.x, y: Ofset.y)
+    }
+    func shadow(size: CGFloat, Ofset: CGPoint = .zero) -> some View {
+        self
+            .shadow(radius: size, x: Ofset.x, y: Ofset.y)
+    }
+    func shadow(color: Color, size: CGFloat, Ofset: CGPoint = .zero) -> some View {
+        self
+            .shadow(color: color, radius: size, x: Ofset.x, y: Ofset.y)
+    }
+}

@@ -24,7 +24,10 @@ struct mediaView: View {
         if let media = media, (media.fullType < 5 && showCard) || isTap {
             HStack(alignment: .top, spacing: 15) {
                 Button {
-                    MRMediaRemoteSendCommand(MRMediaRemoteCommandSeekToPlaybackPosition, [:])
+                    MRMediaRemoteGetNowPlayingClient(.main) { MRNowPlayingClientProtobuf in
+                        
+                        print(MRNowPlayingClientProtobuf?.bundleIdentifier)
+                    }
                 } label: {
                     ZStack {
                         Color(NSColor.windowBackgroundColor)

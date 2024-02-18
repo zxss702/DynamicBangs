@@ -27,8 +27,6 @@ struct ContentView: View {
     @AppStorage("defautBangs") var defautBangs = true
     @AppStorage("noLiveToHide") var noLiveToHide = false
     
-    @Environment(\.openWindow) var openWindow
-    
     var body: some View {
         VStack(spacing: 1) {
             HStack(spacing: 1) {
@@ -102,7 +100,7 @@ struct ContentView: View {
                 .shadow(radius: (addHeight != 0 || widthLeft != 0 || widthRight != 0 || isHover) ? 15 : 0)
         }
         .scaleEffect(x: isHover ? 1.1 : 1, y: isHover ? 1.1 : 1, anchor: .top)
-        .scaleEffect(x: isLongTap ? 1.1 : 1, y: isLongTap ? 1.1 : 1, anchor: .top)
+        .scaleEffect(x: ShowSetting ? 1.1 : 1, y: ShowSetting ? 1.1 : 1, anchor: .top)
         .scaleEffect(x: noLiveToHide ? ((addHeight != 0 || widthLeft != 0 || widthRight != 0 || isHover) ? 1 : 0) : 1, y: noLiveToHide ? ((addHeight != 0 || widthLeft != 0 || widthRight != 0 || isHover) ? 1 : 0) : 1, anchor: .top)
         .onHover { Bool in
             isHover = Bool
@@ -114,10 +112,10 @@ struct ContentView: View {
             isTap = true
         }
         .onLongPressGesture(minimumDuration: 1, maximumDistance: .infinity) {
-            openWindow.callAsFunction(id: "灵动刘海设置")
+            appObserver.setSettingWindows()
         } onPressingChanged: { Bool in
-            isLongTap = Bool
             ShowSetting = false
+            isLongTap = Bool
             if Bool {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     ShowSetting = isLongTap

@@ -41,6 +41,8 @@
 		149C12C42B805CC50092F102 /* RectPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12A92B805CC50092F102 /* RectPreferenceKey.swift */; };
 		149C12C52B805CC50092F102 /* SizePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12AA2B805CC50092F102 /* SizePreferenceKey.swift */; };
 		14E263782B81BBBA00CA6809 /* FirstShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E263772B81BBBA00CA6809 /* FirstShowView.swift */; };
+		14E2637F2B82122B00CA6809 /* 工作室.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E2637E2B82122B00CA6809 /* 工作室.swift */; };
+		14E263812B82123200CA6809 /* 关于.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E263802B82123100CA6809 /* 关于.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +83,8 @@
 		149C12AA2B805CC50092F102 /* SizePreferenceKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizePreferenceKey.swift; sourceTree = "<group>"; };
 		149C12C72B805E050092F102 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14E263772B81BBBA00CA6809 /* FirstShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstShowView.swift; sourceTree = "<group>"; };
+		14E2637E2B82122B00CA6809 /* 工作室.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "工作室.swift"; sourceTree = "<group>"; };
+		14E263802B82123100CA6809 /* 关于.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "关于.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +126,8 @@
 				14E263772B81BBBA00CA6809 /* FirstShowView.swift */,
 				149C129E2B805CC50092F102 /* islandContentView.swift */,
 				149C12982B805CC50092F102 /* SettingView.swift */,
+				14E2637E2B82122B00CA6809 /* 工作室.swift */,
+				14E263802B82123100CA6809 /* 关于.swift */,
 				149C12972B805CC50092F102 /* Ex-View.swift */,
 				149C12962B805CC50092F102 /* menuButton.swift */,
 				149C12992B805CC50092F102 /* Content */,
@@ -322,8 +328,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				149C12B92B805CC50092F102 /* mediaView.swift in Sources */,
+				14E2637F2B82122B00CA6809 /* 工作室.swift in Sources */,
 				149C12BE2B805CC50092F102 /* isLandView.swift in Sources */,
 				149C12BF2B805CC50092F102 /* NSEventExtensions.swift in Sources */,
+				14E263812B82123200CA6809 /* 关于.swift in Sources */,
 				149C12C02B805CC50092F102 /* MediaKeyTapInternals.swift in Sources */,
 				149C12B32B805CC50092F102 /* AppDelegate.swift in Sources */,
 				149C12C52B805CC50092F102 /* SizePreferenceKey.swift in Sources */,
