@@ -6,6 +6,10 @@ public extension NSScreen {
   var displayID: CGDirectDisplayID {
     return (self.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID)!
   }
+    
+    var displayInt: Int {
+      return (self.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? Int)!
+    }
 
   var vendorNumber: UInt32? {
     switch CGDisplayVendorNumber(self.displayID) {

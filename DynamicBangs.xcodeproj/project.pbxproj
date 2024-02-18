@@ -40,6 +40,7 @@
 		149C12C32B805CC50092F102 /* View+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12A82B805CC50092F102 /* View+Geometry.swift */; };
 		149C12C42B805CC50092F102 /* RectPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12A92B805CC50092F102 /* RectPreferenceKey.swift */; };
 		149C12C52B805CC50092F102 /* SizePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12AA2B805CC50092F102 /* SizePreferenceKey.swift */; };
+		14E263782B81BBBA00CA6809 /* FirstShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E263772B81BBBA00CA6809 /* FirstShowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +80,7 @@
 		149C12A92B805CC50092F102 /* RectPreferenceKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreferenceKey.swift; sourceTree = "<group>"; };
 		149C12AA2B805CC50092F102 /* SizePreferenceKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizePreferenceKey.swift; sourceTree = "<group>"; };
 		149C12C72B805E050092F102 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		14E263772B81BBBA00CA6809 /* FirstShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstShowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,8 @@
 				149C12C72B805E050092F102 /* Info.plist */,
 				149C12712B805C6A0092F102 /* DynamicBangsApp.swift */,
 				149C12732B805C6A0092F102 /* ContentView.swift */,
+				14E263772B81BBBA00CA6809 /* FirstShowView.swift */,
+				149C129E2B805CC50092F102 /* islandContentView.swift */,
 				149C12982B805CC50092F102 /* SettingView.swift */,
 				149C12972B805CC50092F102 /* Ex-View.swift */,
 				149C12962B805CC50092F102 /* menuButton.swift */,
@@ -204,7 +208,6 @@
 				149C129B2B805CC50092F102 /* mediaView.swift */,
 				149C129C2B805CC50092F102 /* InfoFunctionFloatSetView.swift */,
 				149C129D2B805CC50092F102 /* BangsShape.swift */,
-				149C129E2B805CC50092F102 /* islandContentView.swift */,
 				149C129F2B805CC50092F102 /* BetterInfoView.swift */,
 				149C12A02B805CC50092F102 /* isLandView.swift */,
 			);
@@ -340,6 +343,7 @@
 				149C12B52B805CC50092F102 /* menuButton.swift in Sources */,
 				149C12BB2B805CC50092F102 /* BangsShape.swift in Sources */,
 				149C12C32B805CC50092F102 /* View+Geometry.swift in Sources */,
+				14E263782B81BBBA00CA6809 /* FirstShowView.swift in Sources */,
 				149C12BA2B805CC50092F102 /* InfoFunctionFloatSetView.swift in Sources */,
 				149C12B42B805CC50092F102 /* Display.swift in Sources */,
 				149C12B82B805CC50092F102 /* musicImageView.swift in Sources */,
@@ -497,7 +501,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.5;
+				MARKETING_VERSION = 0.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -533,7 +537,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.5;
+				MARKETING_VERSION = 0.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

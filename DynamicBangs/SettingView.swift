@@ -37,10 +37,12 @@ struct SettingView: View {
     @AppStorage("palyID") var playID: Int = 1
     
     @AppStorage("musicLogo") var musicLogo = "music.note"
+    @AppStorage("noLiveToHide") var noLiveToHide = false
     
     var body: some View {
         PopoverRootStyle {
             Group {
+                Text("长按刘海，呼出设置窗口。")
                 Text("确保刘海外有黑色边缘，白色被刘海覆盖。")
                 menuButton(titleName: "刘海宽度", showDivider: false) {
                     Button("恢复默认"){
@@ -97,6 +99,36 @@ struct SettingView: View {
                 }
             }
             
+            Group {
+                menuButton(titleName: "显示灵动的屏幕", showDivider: true) {
+                    Spacer()
+                } MainTitle2: {
+                    Spacer()
+                } content: {
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(NSScreen.screens, id: \.displayInt) { sc in
+                                Button {
+                                    if let int = appObserver.showDisplays.firstIndex(of: sc.displayInt) {
+                                        appObserver.showDisplays.remove(at: int)
+                                    } else {
+                                        appObserver.showDisplays.append(sc.displayInt)
+                                    }
+                                    appObserver.setWindow()
+                                } label: {
+                                    Image(systemName: "display")
+                                        .overlay {
+                                            Text(String( sc.displayInt))
+                                        }
+                                        .foregroundStyle(appObserver.showDisplays.contains(sc.displayInt) ? .black : .gray)
+                                }
+                            }
+                        }
+                        .padding(.all)
+                    }
+                }
+            }
+            
             menuButton(titleName: "灵动岛模式", showDivider: true) {
                 Spacer()
             } MainTitle2: {
@@ -107,16 +139,27 @@ struct SettingView: View {
                 }
                 .labelsHidden()
             }
-            
-            menuButton(titleName: "活动时不显大卡片", showDivider: true) {
-                Spacer()
-            } MainTitle2: {
-                Spacer()
-            } content: {
-                Toggle(isOn: $showCard) {
-                    
+            Group {
+                menuButton(titleName: "活动时不显大卡片", showDivider: true) {
+                    Spacer()
+                } MainTitle2: {
+                    Spacer()
+                } content: {
+                    Toggle(isOn: $showCard) {
+                        
+                    }
+                    .labelsHidden()
                 }
-                .labelsHidden()
+                menuButton(titleName: "无活动时不显示", showDivider: true) {
+                    Spacer()
+                } MainTitle2: {
+                    Spacer()
+                } content: {
+                    Toggle(isOn: $noLiveToHide) {
+                        
+                    }
+                    .labelsHidden()
+                }
             }
             Group {
                 menuButton(titleName: "小音乐图:sfImage", showDivider: true) {

@@ -241,30 +241,64 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
             
         }
     }
+    @Published var showDisplays:[Int] = [(NSScreen.main?.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? Int) ?? 1]
+    
+    @AppStorage("firstShow") var firstShow = true
     
     @objc func setWindow() {
-        for item in windows {
-            item.close()
+        if firstShow {
+            NSApplication.shared.windows.forEach { NSWindow in
+                NSWindow.close()
+            }
+            if windows.isEmpty {
+                guard let i = NSScreen.main else { return }
+                let hostionViewController = NSHostingController(rootView: FirstShowView().environmentObject(self))
+                let BangsWindow = NotchWindow()
+                BangsWindow.targetScreen = i
+                BangsWindow.contentViewController = hostionViewController
+                BangsWindow.styleMask = [.borderless, .nonactivatingPanel]
+                BangsWindow.backingType = .buffered
+                BangsWindow.backgroundColor = .clear
+                BangsWindow.hasShadow = false
+                BangsWindow.level = .screenSaver
+                BangsWindow.collectionBehavior =  [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
+                BangsWindow.setFrame(i.frame, display: true)
+                let notchWindowController = NSWindowController()
+                notchWindowController.contentViewController = BangsWindow.contentViewController
+                
+                notchWindowController.window = BangsWindow
+                notchWindowController.showWindow(self)
+                windows.append(BangsWindow)
+            }
+        } else {
+            for item in windows {
+                item.close()
+            }
+            windows.removeAll()
+            for i in NSScreen.screens {
+                if let id = i.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? Int {
+                    if showDisplays.contains(id) {
+                        let hostionViewController = NSHostingController(rootView: isLandView().environmentObject(self))
+                        let BangsWindow = NotchWindow()
+                        BangsWindow.targetScreen = i
+                        BangsWindow.contentViewController = hostionViewController
+                        BangsWindow.styleMask = [.borderless, .nonactivatingPanel]
+                        BangsWindow.backingType = .buffered
+                        BangsWindow.backgroundColor = .clear
+                        BangsWindow.hasShadow = false
+                        BangsWindow.level = .screenSaver
+                        BangsWindow.collectionBehavior =  [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
+                        BangsWindow.setFrame(i.frame, display: true)
+                        let notchWindowController = NSWindowController()
+                        notchWindowController.contentViewController = BangsWindow.contentViewController
+                        
+                        notchWindowController.window = BangsWindow
+                        notchWindowController.showWindow(self)
+                        windows.append(BangsWindow)
+                    }
+                }
+            }
         }
-        windows.removeAll()
-        guard let i = NSScreen.main else { return }
-        let hostionViewController = NSHostingController(rootView: isLandView().environmentObject(self))
-        let BangsWindow = NotchWindow()
-        BangsWindow.targetScreen = i
-        BangsWindow.contentViewController = hostionViewController
-        BangsWindow.styleMask = [.borderless, .nonactivatingPanel]
-        BangsWindow.backingType = .buffered
-        BangsWindow.backgroundColor = .clear
-        BangsWindow.hasShadow = false
-        BangsWindow.level = .screenSaver
-        BangsWindow.collectionBehavior =  [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
-        BangsWindow.setFrame(i.frame, display: true)
-        let notchWindowController = NSWindowController()
-        notchWindowController.contentViewController = BangsWindow.contentViewController
-        
-        notchWindowController.window = BangsWindow
-        notchWindowController.showWindow(self)
-        windows.append(BangsWindow)
     }
 }
 
@@ -277,19 +311,12 @@ class NotchWindow: NSWindow {
 }
 
 
-
 @main
 struct DynamicBangsApp: App {
     @StateObject var appObserver = AppObserver()
     
-    @Environment(\.openWindow) var openWindow
-    
     var body: some Scene {
-        WindowGroup(Text("灵动刘海设置")) {
-            SettingView()
-                .environmentObject(appObserver)
-        }
-        MenuBarExtra("灵动刘海设置", systemImage: "rectangle.portrait.topthird.inset.filled") {
+        Window(Text("灵动刘海设置"), id: "灵动刘海设置") {
             SettingView()
                 .environmentObject(appObserver)
                 .overlay(alignment: .bottomLeading) {
@@ -298,9 +325,8 @@ struct DynamicBangsApp: App {
                     }
                     .padding(.all)
                 }
-           
         }
-        .menuBarExtraStyle(.window)
+        .windowStyle(.hiddenTitleBar)
     }
 }
 

@@ -27,21 +27,21 @@ struct mediaView: View {
                     MRMediaRemoteSendCommand(MRMediaRemoteCommandSeekToPlaybackPosition, [:])
                 } label: {
                     ZStack {
-                        if media.image != nil {
-                            media.image!
-                                .resizable()
-                                .scaledToFill()
-                                .transition(.blur)
-                        } else {
-                            Color(NSColor.windowBackgroundColor)
-                                .overlay {
-                                    musicImageView()
-                                        .scaledToFit()
-                                        .frame(width: 45, height: 45)
-                                        .foregroundStyle(.accent)
+                        Color(NSColor.windowBackgroundColor)
+                            .overlay {
+                                musicImageView()
+                                    .scaledToFit()
+                                    .frame(width: 45, height: 45)
+                                    .foregroundStyle(.accent)
+                            }
+                            .overlay {
+                                if media.image != nil {
+                                    media.image!
+                                        .resizable()
+                                        .scaledToFill()
+                                        .transition(.blur)
                                 }
-                                .transition(.blur)
-                        }
+                            }
                     }
                     .frame(width: 70, height: 70)
                     .clipShape(RoundedRectangle(cornerRadius: 9))
@@ -153,8 +153,8 @@ struct mediaView: View {
                 }
             }
             .padding([.bottom, .trailing, .leading], 10)
-            .frame(width: max(BangsWidth * 1.4, 160 * 1.4), height: 80, alignment: .leading)
             .transition(.blur)
+            .frame(width: max(BangsWidth * 1.4, 160 * 1.4), height: 80, alignment: .leading)
             .animation(.spring(), value: musicControlHold)
         }
         
