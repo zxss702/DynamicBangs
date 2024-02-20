@@ -304,11 +304,23 @@ struct SettingViewCellViewType<Content: View>: View {
                 Spacer()
                     .frame(height: 25)
                 if title != "" {
-                    Text(title)
-                        .font(.largeTitle)
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding([.leading, .trailing])
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "chevron.backward")
+                                .foregroundStyle(.blue)
+                                .EditViewLabelStyle()
+                                .EditShadow()
+                        }
+                        .padding(.leading)
+                        
+                        Text(title)
+                            .font(.largeTitle)
+                            .bold()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.trailing)
+                    }
                     Divider()
                         .padding([.leading, .trailing], 8)
                         .padding(.bottom, 5)
@@ -323,17 +335,6 @@ struct SettingViewCellViewType<Content: View>: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .overlay(alignment: .bottomLeading) {
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "chevron.backward")
-                    .EditViewLabelStyle()
-                    .EditShadow()
-            }
-            .padding(.all)
-        }
-        
     }
 }
 struct SettingView2: View {

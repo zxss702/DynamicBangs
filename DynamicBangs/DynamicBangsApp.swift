@@ -53,6 +53,9 @@ struct settingHelperView: View {
     @State var show = false
     let settingWindow:NSWindow?
     
+    @State var offset: CGPoint = .zero
+    @State var offset2: CGPoint = .zero
+    
     var body: some View {
         RoundedRectangle(cornerRadius: 17)
             .foregroundStyle(.ultraThinMaterial)
@@ -64,7 +67,17 @@ struct settingHelperView: View {
             .padding(.all)
             .shadow(radius: 0.6)
             .shadow(radius: 34)
-            .offset(x: show ? 0 : -400)
+            .offset(x: show ? offset.x : -400, y: show ? offset.y : 0)
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { value in
+                        offset.x = offset2.x + value.translation.width
+                        offset.y = offset2.y + value.translation.height
+                    }
+                    .onEnded { value in
+                        offset2 = offset
+                    }
+            )
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -95,19 +108,20 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
         if !isSettingOpen {
             isSettingOpen = true
             guard let i = NSScreen.main else { return }
-            let BangsWindow = NotchWindow()
+            let BangsWindow = NSPanel()
             let hostionViewController = NSHostingController(
                 rootView: settingHelperView(settingWindow: BangsWindow).environmentObject(self)
             )
-            BangsWindow.targetScreen = i
+//            BangsWindow.targetScreen = i
             BangsWindow.contentViewController = hostionViewController
-            BangsWindow.styleMask = [.borderless, .nonactivatingPanel]
+            BangsWindow.styleMask = [.borderless]
             BangsWindow.backingType = .buffered
             BangsWindow.backgroundColor = .clear
             BangsWindow.hasShadow = false
             BangsWindow.level = .screenSaver
             BangsWindow.collectionBehavior =  [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
             BangsWindow.setFrame(i.frame, display: true)
+            BangsWindow.becomeKey()
             let notchWindowController = NSWindowController()
             notchWindowController.contentViewController = BangsWindow.contentViewController
             
@@ -137,9 +151,6 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
         upDateMedia()
         DispatchQueue.main.async { [self] in
             setWindow()
-            if !firstShow {
-                setSettingWindows()
-            }
             app.applicationDidFinishLaunching()
         }
         setTime()
@@ -384,6 +395,10 @@ class AppObserver: NSObject, ObservableObject, MediaKeyTapDelegate {
                         BangsWindow.level = .screenSaver
                         BangsWindow.collectionBehavior =  [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
                         BangsWindow.setFrame(i.frame, display: true)
+                        BangsWindow.canBecomeVisibleWithoutLogin = true
+                        BangsWindow.isExcludedFromWindowsMenu = true
+                        
+                        
                         let notchWindowController = NSWindowController()
                         notchWindowController.contentViewController = BangsWindow.contentViewController
                         
@@ -412,8 +427,7 @@ struct DynamicBangsApp: App {
     
     var body: some Scene {
         Settings {
-            SettingView(show: .constant(true))
-                .environmentObject(appObserver)
+            EmptyView()
         }
     }
 }

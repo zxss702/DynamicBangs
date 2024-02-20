@@ -102,6 +102,9 @@ struct ContentView: View {
         .scaleEffect(x: isHover ? 1.1 : 1, y: isHover ? 1.1 : 1, anchor: .top)
         .scaleEffect(x: ShowSetting ? 1.1 : 1, y: ShowSetting ? 1.1 : 1, anchor: .top)
         .scaleEffect(x: noLiveToHide ? ((addHeight != 0 || widthLeft != 0 || widthRight != 0 || isHover) ? 1 : 0) : 1, y: noLiveToHide ? ((addHeight != 0 || widthLeft != 0 || widthRight != 0 || isHover) ? 1 : 0) : 1, anchor: .top)
+        .background {
+            Color.accentColor.opacity(0.01)
+        }
         .onHover { Bool in
             isHover = Bool
             if !Bool {
