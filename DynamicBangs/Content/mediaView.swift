@@ -25,64 +25,66 @@ struct mediaView: View {
             HStack(alignment: .top, spacing: 15) {
                 Button {
                     MRMediaRemoteGetNowPlayingClient(.main) { MRNowPlayingClientProtobuf in
-                        
                         print(MRNowPlayingClientProtobuf?.bundleIdentifier)
                     }
                 } label: {
                     ZStack {
-                        Color(NSColor.windowBackgroundColor)
-                            .overlay {
-                                musicImageView()
-                                    .scaledToFit()
-                                    .frame(width: 45, height: 45)
-                                    .foregroundStyle(.accent)
-                            }
-                            .overlay {
-                                if media.image != nil {
-                                    media.image!
-                                        .resizable()
-                                        .scaledToFill()
-                                        .transition(.blur)
+                        if media.image != nil {
+                            media.image!
+                                .resizable()
+                                .scaledToFill()
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                                .transition(.blur)
+                        } else {
+                            Color(NSColor.windowBackgroundColor)
+                                .overlay {
+                                    musicImageView()
+                                        .scaledToFit()
+                                        .frame(width: 45, height: 45)
+                                        .foregroundStyle(.accent)
                                 }
-                            }
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                        }
                     }
                     .frame(width: 70, height: 70)
-                    .clipShape(RoundedRectangle(cornerRadius: 9))
-                    .shadow(color: .white, radius: 0.6)
-                    .scaleEffect(x: media.isPlay ? 1 : 0.8, y: media.isPlay ? 1 : 0.8)
+                    .scaleEffect(x: media.isPlay ? 1 : 0.95, y: media.isPlay ? 1 : 0.95)
+                    .blur(radius: media.isPlay ? 0 : 2)
                 }
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(media.name == "" ? "未知媒体" : media.name)
+                    Text(media.name)
                         .bold()
                         .font(.title2)
                         .foregroundStyle(.white)
+                        .truncationMode(.middle)
                         .lineLimit(1)
                     if musicControlHold {
                         Spacer(minLength: 0)
-                        HStack(spacing: 17) {
+                        HStack(spacing: 0) {
                             Button {
                                 MRMediaRemoteSendCommand(MRMediaRemoteCommandPreviousTrack, [:])
                             } label: {
                                 Image(systemName: "backward.fill")
                                     .font(.title)
-                                    .foregroundStyle(.bar)
+                                    .foregroundStyle(.white)
                             }
+                            Spacer(minLength: 0)
                             Button {
                                 MRMediaRemoteSendCommand(MRMediaRemoteCommandTogglePlayPause, [:])
                             } label: {
                                 if media.isPlay {
                                     Image(systemName: "pause.fill")
                                         .font(.title)
-                                        .foregroundStyle(.bar)
+                                        .foregroundStyle(.white)
                                         .transition(.blur)
                                 } else {
                                     Image(systemName: "play.fill")
                                         .font(.title)
-                                        .foregroundStyle(.bar)
+                                        .foregroundStyle(.white)
                                         .transition(.blur)
                                 }
                             }
+                            Spacer(minLength: 0)
                             Button {
                                 MRMediaRemoteSendCommand(MRMediaRemoteCommandNextTrack, [:])
                             } label: {
@@ -90,8 +92,9 @@ struct mediaView: View {
                                     .font(.title)
                                     .foregroundStyle(.bar)
                             }
+                            Spacer(minLength: 0)
+                            Spacer(minLength: 0)
                         }
-                        .shadow(radius: 8)
                         .transition(.blur)
                         
                         Spacer(minLength: 0)
@@ -103,7 +106,7 @@ struct mediaView: View {
                                         Capsule(style: .circular)
                                             .foregroundStyle(.white)
                                             .shadow(radius: 8)
-                                            .frame(width: GeometryProxy.size.width * CGFloat(media.nowTime / media.fullTime) + trW)
+                                            .frame(width: max(GeometryProxy.size.width * CGFloat(media.nowTime / media.fullTime) + trW, 1))
                                         
                                     }
                                     .clipShape(Capsule(style: .circular))
@@ -140,13 +143,15 @@ struct mediaView: View {
                         }
                     } else {
                         Spacer(minLength: 0)
-                        Text(media.Artist2 == "" ? "未知专辑" : media.Artist2)
+                        Text(media.Artist2)
                             .foregroundStyle(.gray)
                             .lineLimit(1)
+                            .truncationMode(.middle)
                         Spacer(minLength: 0)
-                        Text(media.Artist == "" ? "未知作者" : media.Artist)
+                        Text(media.Artist)
                             .foregroundStyle(.gray)
                             .lineLimit(1)
+                            .truncationMode(.middle)
                         Spacer(minLength: 0)
                     }
                 }
@@ -185,7 +190,6 @@ struct mediaInfoImage: View {
                 }
             }
             .frame(width: BangsHeight - 6, height: BangsHeight - 6)
-            .padding(.leading, 3)
             .transition(.blur.combined(with: .scale(scale: 0, anchor: .leading)))
         }
     }

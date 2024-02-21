@@ -241,7 +241,7 @@ struct FirstShowView: View {
                         .shadow(radius: 0.6)
                         .shadow(radius: 20)
                         .padding([.leading, .trailing], 50)
-                    if showInfo >= 36 {
+                    if appObserver.SettingWindow != nil {
                         Button {
                             withAnimation(.spring()) {
                                 showInfo = 40

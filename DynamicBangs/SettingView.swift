@@ -21,25 +21,14 @@ let list:[Int:String] = {
     return newL
 }()
 struct SettingView: View {
-    @Binding var show: Bool
-    var settingWindow:NSWindow? = nil
-    
     @EnvironmentObject var appObserver:AppObserver
-    
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 5) {
                     Spacer()
-                        .frame(height: 25)
-                    Text("设置")
-                        .font(.largeTitle)
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding([.leading, .trailing])
-                    Divider()
-                        .padding([.leading, .trailing], 8)
-                        .padding(.bottom, 5)
+                        .frame(height: 20)
+                    
                     VStack(spacing: 15) {
                         NavigationLink {
                             通用()
@@ -95,44 +84,27 @@ struct SettingView: View {
                     
                 }
             }
+            .navigationTitle("设置")
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        NSApplication.shared.terminate(nil)
+                    } label: {
+                        Text("退出程序")
+                            .foregroundStyle(.white)
+                            .EditViewLabelStyle(true, color: .accentColor)
+                    }
+
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .overlay(alignment: .topLeading) {
-            if settingWindow != nil {
-                Button {
-                    appObserver.isSettingOpen = false
-                    withAnimation(.spring()) {
-                        show = false
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        settingWindow?.close()
-                    }
-                } label: {
-                    Circle().frame(width: 13, height: 13)
-                        .foregroundStyle(.red)
-                }
-                .padding(.all, 10)
-            }
-        }
-        .overlay(alignment: .topTrailing) {
-            if settingWindow != nil {
-                Button {
-                    NSApplication.shared.terminate(nil)
-                } label: {
-                    Text("退出程序")
-                        .foregroundStyle(Color(.labelColor))
-                        .padding([.leading, .trailing], 5)
-                        .background(Capsule().foregroundStyle(.accent))
-                        .frame(height: 13)
-                }
-                .padding(.all, 10)
-            }
-        }
         .buttonStyle(TapButtonStyle())
     }
     
     @AppStorage("musicLogo") var musicLogo = "music.note"
     @AppStorage("palyID") var playID: Int = 1
+    @AppStorage("openNearBy") var openNearBy = false
     
     @ViewBuilder
     func 媒体() -> some View {
@@ -159,7 +131,13 @@ struct SettingView: View {
                     }
                 })
             }
-            
+            SettingCellView(showDivier: true, name: "鼠标感应", bottomName: "勾选后靠近时激活大卡片") {
+                Toggle(isOn: $openNearBy) {
+                    
+                }
+                .labelsHidden()
+            }
+
             SettingCellView2(showDivier: true, name: "黑名单", bottomName: "未勾选的程序将不会激活大卡片") {
                 VStack(spacing: 15) {
                     let showImageList:[mediaAppCanShow] = (try? PropertyListDecoder().decode([mediaAppCanShow].self, from: appObserver.showImageListData)) ?? []
@@ -207,7 +185,9 @@ struct SettingView: View {
                 }
                 .labelsHidden()
             }
-            
+            SettingCellView2(showDivier: true, name: "通知接口", bottomName: "从任何地方发送灵动刘海可以显示的消息") {
+                messageSendHelperView()
+            }
         }
     }
     
@@ -293,38 +273,111 @@ struct SettingView: View {
     }
 }
 
+@ViewBuilder
+func messageSendHelperView() -> some View {
+    VStack(alignment: .leading, spacing: 6) {
+        Text("DBangMS:|标题|小标题|正文|颜色|图片")
+            .bold()
+            .font(.title3)
+        Group {
+            Group {
+                Text("标题：使用String")
+                Text("小标题：使用String")
+                Text("正文：使用String")
+                Text("颜色：使用Int 且只允许1到8中的数字")
+                Group {
+                    Text("1:白色")
+                    Text("2:红色")
+                    Text("3:橙色")
+                    Text("4:黄色")
+                    Text("5:绿色")
+                    Text("6:青色")
+                    Text("7:蓝色")
+                    Text("8:紫色")
+                }
+                .padding(.leading, 10)
+                Text("图片：使用base64Encoded的String")
+            }
+            Divider()
+                .padding([.bottom, .top], 5)
+            Text("特别注意：")
+                .bold()
+                .font(.title3)
+                .foregroundStyle(.red)
+            Group {
+                Text("所有组建都可以为空，但\"|\"不能丢失，否则将会提示错误消息！")
+                Text("图片的Data String后不得含有\"|\"，否则将会提示错误消息！")
+                Text("任何组建中\"|\"不得含有，否则将会提示错误消息！")
+                Text("所有符号均为英文符号，组建使用\"|\"隔开！")
+            }
+            .foregroundStyle(.red)
+            .padding(.leading, 10)
+            
+            Divider()
+                .padding([.bottom, .top], 5)
+            
+            Text("URL设计事例：")
+                .bold()
+                .font(.title3)
+            Group {
+                Text("无小标题的通知：DBangMS:|标题||正文|颜色|图片")
+                Text("无图片的通知：DBangMS:|标题|小标题|正文|颜色|")
+                Text("颜色为默认的通知：DBangMS:|标题|小标题|正文||图片")
+                Text("空通知：DBangMS:|||||")
+            }
+            .padding(.leading, 10)
+            
+            Divider()
+                .padding([.bottom, .top], 5)
+            
+            Text("接口使用事例：")
+                .bold()
+                .font(.title3)
+            Group {
+                Text("swiftUI:")
+                    .bold()
+                Text(
+"""
+@Environment(\\.openURL) var openURL
+
+let imageDataEncodedString = NSBitmapImageRep(cgImage: (NSImage()?.cgImage(forProposedRect: nil, context: nil, hints: nil))!).representation(using: .png, properties: [:])?.base64EncodedString()
+
+let body:String = “正文”
+
+let colorINT:Int = 1
+
+
+openURL(URL(string: String("DBangMS:|标题|小标题|\\(body)|\\(colorINT)|\\(imageDataEncodedString ?? "")").urlEncoded(), encodingInvalidCharacters: false)!)
+"""
+                )
+                .padding(.leading, 10)
+                Divider()
+                    .padding([.bottom, .top], 5)
+                
+                Text("Apple Script:")
+                    .bold()
+                Text("open location \"DBangMS:|标题|小标题|正文|1|\"")
+                    .padding(.leading, 10)
+            }
+            .padding(.leading, 10)
+        }
+        .foregroundStyle(.gray)
+        .padding(.leading, 10)
+    }
+    .padding(.leading, 20)
+    .textSelection(.enabled)
+}
+
 struct SettingViewCellViewType<Content: View>: View {
     let title:String
     @ViewBuilder var content: () -> Content
     
-    @Environment(\.dismiss) var dismiss
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 5) {
                 Spacer()
-                    .frame(height: 25)
-                if title != "" {
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.backward")
-                                .foregroundStyle(.blue)
-                                .EditViewLabelStyle()
-                                .EditShadow()
-                        }
-                        .padding(.leading)
-                        
-                        Text(title)
-                            .font(.largeTitle)
-                            .bold()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.trailing)
-                    }
-                    Divider()
-                        .padding([.leading, .trailing], 8)
-                        .padding(.bottom, 5)
-                }
+                    .frame(height: 20)
+                
                 VStack {
                     content()
                 }
@@ -335,6 +388,7 @@ struct SettingViewCellViewType<Content: View>: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .navigationTitle(title)
     }
 }
 struct SettingView2: View {
@@ -471,7 +525,7 @@ func MainColumnButton(image: Image, color: Color, text: Text) -> some View {
             .frame(width: 21, height: 21)
             .frame(width: 30, height: 30)
             .background(.bar)
-            .clipShape(RoundedRectangle(cornerRadius: 9))
+            .clipShape(RoundedRectangle(cornerRadius: 4))
             .shadow(color: color.opacity(0.5), radius: 3)
             .shadow(color: color, radius: 30)
         text
@@ -484,7 +538,7 @@ func MainColumnButton(image: Image, color: Color, text: Text) -> some View {
     .background(.background)
     .compositingGroup()
     .drawingGroup()
-    .clipShape(RoundedRectangle(cornerRadius: 13))
+    .clipShape(RoundedRectangle(cornerRadius: 12))
     .EditShadow()
 }
 
@@ -498,7 +552,7 @@ func MainColumnButton2(image: Image, color: Color, text: Text) -> some View {
             .frame(width: 21, height: 21)
             .frame(width: 30, height: 30)
             .background(.bar)
-            .clipShape(RoundedRectangle(cornerRadius: 9))
+            .clipShape(RoundedRectangle(cornerRadius: 4))
             .shadow(color: color.opacity(0.5), radius: 3)
             .shadow(color: color, radius: 30)
         text
@@ -509,6 +563,6 @@ func MainColumnButton2(image: Image, color: Color, text: Text) -> some View {
     .background(.background)
     .compositingGroup()
     .drawingGroup()
-    .clipShape(RoundedRectangle(cornerRadius: 13))
+    .clipShape(RoundedRectangle(cornerRadius: 12))
     .EditShadow()
 }

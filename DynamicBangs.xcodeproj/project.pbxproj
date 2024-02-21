@@ -40,6 +40,8 @@
 		149C12C32B805CC50092F102 /* View+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12A82B805CC50092F102 /* View+Geometry.swift */; };
 		149C12C42B805CC50092F102 /* RectPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12A92B805CC50092F102 /* RectPreferenceKey.swift */; };
 		149C12C52B805CC50092F102 /* SizePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12AA2B805CC50092F102 /* SizePreferenceKey.swift */; };
+		14C320152B85B1810016AD8C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C320142B85B1810016AD8C /* main.swift */; };
+		14C320172B85B4AA0016AD8C /* messageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C320162B85B4AA0016AD8C /* messageView.swift */; };
 		14E263782B81BBBA00CA6809 /* FirstShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E263772B81BBBA00CA6809 /* FirstShowView.swift */; };
 		14E2637F2B82122B00CA6809 /* 工作室.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E2637E2B82122B00CA6809 /* 工作室.swift */; };
 		14E263812B82123200CA6809 /* 关于.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E263802B82123100CA6809 /* 关于.swift */; };
@@ -82,6 +84,8 @@
 		149C12A92B805CC50092F102 /* RectPreferenceKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreferenceKey.swift; sourceTree = "<group>"; };
 		149C12AA2B805CC50092F102 /* SizePreferenceKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizePreferenceKey.swift; sourceTree = "<group>"; };
 		149C12C72B805E050092F102 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		14C320142B85B1810016AD8C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		14C320162B85B4AA0016AD8C /* messageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messageView.swift; sourceTree = "<group>"; };
 		14E263772B81BBBA00CA6809 /* FirstShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstShowView.swift; sourceTree = "<group>"; };
 		14E2637E2B82122B00CA6809 /* 工作室.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "工作室.swift"; sourceTree = "<group>"; };
 		14E263802B82123100CA6809 /* 关于.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "关于.swift"; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 			children = (
 				149C12C72B805E050092F102 /* Info.plist */,
 				149C12712B805C6A0092F102 /* DynamicBangsApp.swift */,
+				14C320142B85B1810016AD8C /* main.swift */,
 				149C12732B805C6A0092F102 /* ContentView.swift */,
 				14E263772B81BBBA00CA6809 /* FirstShowView.swift */,
 				149C129E2B805CC50092F102 /* islandContentView.swift */,
@@ -212,6 +217,7 @@
 			children = (
 				149C129A2B805CC50092F102 /* musicImageView.swift */,
 				149C129B2B805CC50092F102 /* mediaView.swift */,
+				14C320162B85B4AA0016AD8C /* messageView.swift */,
 				149C129C2B805CC50092F102 /* InfoFunctionFloatSetView.swift */,
 				149C129D2B805CC50092F102 /* BangsShape.swift */,
 				149C129F2B805CC50092F102 /* BetterInfoView.swift */,
@@ -356,9 +362,11 @@
 				149C12B42B805CC50092F102 /* Display.swift in Sources */,
 				149C12B82B805CC50092F102 /* musicImageView.swift in Sources */,
 				149C12C22B805CC50092F102 /* MediaApplicationWatcher.swift in Sources */,
+				14C320152B85B1810016AD8C /* main.swift in Sources */,
 				149C12C12B805CC50092F102 /* MediaKeyTap.swift in Sources */,
 				149C12AE2B805CC50092F102 /* SoundOutputManager+Properties.swift in Sources */,
 				149C12BC2B805CC50092F102 /* islandContentView.swift in Sources */,
+				14C320172B85B4AA0016AD8C /* messageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,7 +517,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.8;
+				MARKETING_VERSION = 0.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -545,7 +553,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.8;
+				MARKETING_VERSION = 0.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

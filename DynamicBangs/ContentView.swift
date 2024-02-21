@@ -27,6 +27,8 @@ struct ContentView: View {
     @AppStorage("defautBangs") var defautBangs = true
     @AppStorage("noLiveToHide") var noLiveToHide = false
     
+    @AppStorage("openNearBy") var openNearBy = false
+    
     var body: some View {
         VStack(spacing: 1) {
             HStack(spacing: 1) {
@@ -39,14 +41,15 @@ struct ContentView: View {
                                 Text("继续长按")
                                     .foregroundStyle(.white)
                                     .transition(.blur.combined(with: .scale))
-                                    .padding(.leading, 5)
                             } else {
                                 mediaInfoImage(media: appObserver.media, isHover: $isHover)
+                                BetterInfoView2(isCharging: appObserver.isCharging)
                             }
                         }
                         .onSizeChange { CGSize in
                             widthLeft = CGSize.width
                         }
+                        .padding(.leading, 5)
                     }
                 }
                 
@@ -63,7 +66,6 @@ struct ContentView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: BangsHeight - 10, height: BangsHeight - 10)
-                                    .padding(.trailing, 5)
                                     .foregroundStyle(.white)
                                     .transition(.blur.combined(with: .scale))
                             } else {
@@ -73,6 +75,7 @@ struct ContentView: View {
                         .onSizeChange { CGSize in
                             widthRight = CGSize.width
                         }
+                        .padding(.trailing, 5)
                     }
                 }
             }
@@ -81,9 +84,13 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 if !ShowSetting {
                     mediaView(media: appObserver.media, isTap: $isTap)
+                    ForEach(appObserver.message.count <= 2 ? appObserver.message : Array(appObserver.message[(appObserver.message.count - 2)...])) { ms in
+                        messageView(message: ms)
+                    }
                     InfoFunctionFloatSetView(sysImage: (appObserver.volume?.value ?? 0.0) == 0 ? "speaker.slash.fill" : "speaker.wave.3", floatFunction: $appObserver.volume)
                     InfoFunctionFloatSetView(sysImage: "sun.max.fill", floatFunction: $appObserver.bright)
                     InfoFunctionFloatSetView(sysImage: "light.max", floatFunction: $appObserver.keyBright)
+                    
                 }
             }
             .onSizeChange { CGSize in
@@ -103,28 +110,56 @@ struct ContentView: View {
         .scaleEffect(x: ShowSetting ? 1.1 : 1, y: ShowSetting ? 1.1 : 1, anchor: .top)
         .scaleEffect(x: noLiveToHide ? ((addHeight != 0 || widthLeft != 0 || widthRight != 0 || isHover) ? 1 : 0) : 1, y: noLiveToHide ? ((addHeight != 0 || widthLeft != 0 || widthRight != 0 || isHover) ? 1 : 0) : 1, anchor: .top)
         .background {
-            Color.accentColor.opacity(0.01)
+            Color.black.opacity(0.001)
         }
-        .onHover { Bool in
-            isHover = Bool
-            if !Bool {
-                isTap = false
-            }
-        }
-        .onTapGesture {
-            isTap = true
-        }
-        .onLongPressGesture(minimumDuration: 1, maximumDistance: .infinity) {
-            appObserver.setSettingWindows()
-        } onPressingChanged: { Bool in
-            ShowSetting = false
-            isLongTap = Bool
-            if Bool {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    ShowSetting = isLongTap
+        .provided(openNearBy, { AnyView in
+            AnyView
+                .overlay(alignment: .top) {
+                    Color.black.opacity(0.001)
+                        .frame(width: BangsWidth, height: BangsHeight)
+                        .onLongPressGesture(minimumDuration: 1, maximumDistance: .infinity) {
+                            appObserver.setSettingWindows()
+                        } onPressingChanged: { Bool in
+                            ShowSetting = false
+                            isLongTap = Bool
+                            if Bool {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    ShowSetting = isLongTap
+                                }
+                            }
+                        }
                 }
-            }
-        }
+                .onHover { Bool in
+                    isTap = Bool
+                    isHover = Bool
+                }
+        }, else: { AnyView in
+            AnyView
+                .onHover { Bool in
+                    isHover = Bool
+                    if !Bool {
+                        isTap = false
+                    }
+                }
+                .onTapGesture {
+                    isTap = true
+                }
+                .onLongPressGesture(minimumDuration: 1, maximumDistance: .infinity) {
+                    if addHeight == 0 {
+                        appObserver.setSettingWindows()
+                    }
+                } onPressingChanged: { Bool in
+                    if addHeight == 0 {
+                        ShowSetting = false
+                        isLongTap = Bool
+                        if Bool {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                ShowSetting = isLongTap
+                            }
+                        }
+                    }
+                }
+        })
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         
         .animation(.spring(), value: BangsWidth)
@@ -134,6 +169,7 @@ struct ContentView: View {
         .animation(.spring(), value: appObserver.bright)
         .animation(.spring(), value: appObserver.keyBright)
         .animation(.spring(), value: appObserver.isCharging)
+        .animation(.spring(), value: appObserver.message)
         .animation(.spring(), value: isHover)
         .animation(.spring(), value: isTap)
         .animation(.spring(), value: widthRight)
