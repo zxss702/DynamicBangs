@@ -365,7 +365,6 @@ class AppObserver: NSObject, NSApplicationDelegate, ObservableObject, MediaKeyTa
                 if self.media?.fullType ?? 10 < 10 {
                     self.media?.fullType += 3
                 } else {
-                    self.media = nil
                     Timer.invalidate()
                     time2 = nil
                 }
