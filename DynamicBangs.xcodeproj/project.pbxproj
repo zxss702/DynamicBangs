@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		140EFF3A2C2D465C0053EB9C /* filesCopyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140EFF392C2D465C0053EB9C /* filesCopyView.swift */; };
 		14102DA72B8081020011A842 /* MediaRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 14102DA62B8081020011A842 /* MediaRemote */; };
 		14513C4D2B80722400446074 /* PrivateMediaRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 14513C4C2B80722400446074 /* PrivateMediaRemote */; };
 		149C12722B805C6A0092F102 /* DynamicBangsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12712B805C6A0092F102 /* DynamicBangsApp.swift */; };
@@ -30,7 +31,6 @@
 		149C12B92B805CC50092F102 /* mediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C129B2B805CC50092F102 /* mediaView.swift */; };
 		149C12BA2B805CC50092F102 /* InfoFunctionFloatSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C129C2B805CC50092F102 /* InfoFunctionFloatSetView.swift */; };
 		149C12BB2B805CC50092F102 /* BangsShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C129D2B805CC50092F102 /* BangsShape.swift */; };
-		149C12BC2B805CC50092F102 /* islandContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C129E2B805CC50092F102 /* islandContentView.swift */; };
 		149C12BD2B805CC50092F102 /* BetterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C129F2B805CC50092F102 /* BetterInfoView.swift */; };
 		149C12BE2B805CC50092F102 /* isLandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12A02B805CC50092F102 /* isLandView.swift */; };
 		149C12BF2B805CC50092F102 /* NSEventExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149C12A22B805CC50092F102 /* NSEventExtensions.swift */; };
@@ -48,6 +48,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		140EFF392C2D465C0053EB9C /* filesCopyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = filesCopyView.swift; sourceTree = "<group>"; };
 		147211E82B80699C000B844C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		149C126E2B805C6A0092F102 /* DynamicBangs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DynamicBangs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		149C12712B805C6A0092F102 /* DynamicBangsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicBangsApp.swift; sourceTree = "<group>"; };
@@ -73,7 +74,6 @@
 		149C129B2B805CC50092F102 /* mediaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mediaView.swift; sourceTree = "<group>"; };
 		149C129C2B805CC50092F102 /* InfoFunctionFloatSetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoFunctionFloatSetView.swift; sourceTree = "<group>"; };
 		149C129D2B805CC50092F102 /* BangsShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BangsShape.swift; sourceTree = "<group>"; };
-		149C129E2B805CC50092F102 /* islandContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = islandContentView.swift; sourceTree = "<group>"; };
 		149C129F2B805CC50092F102 /* BetterInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetterInfoView.swift; sourceTree = "<group>"; };
 		149C12A02B805CC50092F102 /* isLandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = isLandView.swift; sourceTree = "<group>"; };
 		149C12A22B805CC50092F102 /* NSEventExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSEventExtensions.swift; sourceTree = "<group>"; };
@@ -127,9 +127,9 @@
 				149C12C72B805E050092F102 /* Info.plist */,
 				149C12712B805C6A0092F102 /* DynamicBangsApp.swift */,
 				14C320142B85B1810016AD8C /* main.swift */,
+				149C12A02B805CC50092F102 /* isLandView.swift */,
 				149C12732B805C6A0092F102 /* ContentView.swift */,
 				14E263772B81BBBA00CA6809 /* FirstShowView.swift */,
-				149C129E2B805CC50092F102 /* islandContentView.swift */,
 				149C12982B805CC50092F102 /* SettingView.swift */,
 				14E2637E2B82122B00CA6809 /* 工作室.swift */,
 				14E263802B82123100CA6809 /* 关于.swift */,
@@ -217,11 +217,11 @@
 			children = (
 				149C129A2B805CC50092F102 /* musicImageView.swift */,
 				149C129B2B805CC50092F102 /* mediaView.swift */,
+				140EFF392C2D465C0053EB9C /* filesCopyView.swift */,
 				14C320162B85B4AA0016AD8C /* messageView.swift */,
 				149C129C2B805CC50092F102 /* InfoFunctionFloatSetView.swift */,
 				149C129D2B805CC50092F102 /* BangsShape.swift */,
 				149C129F2B805CC50092F102 /* BetterInfoView.swift */,
-				149C12A02B805CC50092F102 /* isLandView.swift */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -362,10 +362,10 @@
 				149C12B42B805CC50092F102 /* Display.swift in Sources */,
 				149C12B82B805CC50092F102 /* musicImageView.swift in Sources */,
 				149C12C22B805CC50092F102 /* MediaApplicationWatcher.swift in Sources */,
+				140EFF3A2C2D465C0053EB9C /* filesCopyView.swift in Sources */,
 				14C320152B85B1810016AD8C /* main.swift in Sources */,
 				149C12C12B805CC50092F102 /* MediaKeyTap.swift in Sources */,
 				149C12AE2B805CC50092F102 /* SoundOutputManager+Properties.swift in Sources */,
-				149C12BC2B805CC50092F102 /* islandContentView.swift in Sources */,
 				14C320172B85B4AA0016AD8C /* messageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -517,7 +517,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.9;
+				MARKETING_VERSION = 0.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -553,7 +553,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.9;
+				MARKETING_VERSION = 0.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.huaxiadaqian.DynamicBangs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

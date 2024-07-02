@@ -8,15 +8,20 @@
 import SwiftUI
 
 struct musicImageView: View {
+    let appID: String
     @AppStorage("musicLogo") var musicLogo = "music.note"
     var body: some View {
-        switch musicLogo {
-        case "网易云": return Image("网易云").resizable()
-        case "": return Image(systemName: "music.note").resizable()
-        default: return Image(systemName: musicLogo).resizable()
+        switch appID {
+        case "com.netease.163music": return Image("网易云").resizable()
+        case "com.apple.Music": return Image("appleMusic").resizable()
+        case "com.apple.WebKit.GPU": return Image("safari").resizable()
+        case "com.apple.quicklook.QuickLookUIService": return Image("quickLook").resizable()
+        default:
+            switch musicLogo {
+            case "": return Image(systemName: "music.note").resizable()
+            default: return Image(systemName: musicLogo).resizable()
+            }
         }
+        
     }
-}
-#Preview {
-    musicImageView()
 }

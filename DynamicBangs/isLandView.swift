@@ -29,13 +29,28 @@ struct isLandView: View {
             .frame(width: BangsWidth, height: BangsHeight)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         } else {
-            if islandModle {
-                islandContentView()
-            } else {
                 ContentView()
-            }
+#if DEBUG
+                .overlay {
+                    ZStack(alignment: .top) {
+                        BangsShape2()
+                        BangsShape()
+                            .padding([.leading, .trailing], 10)
+                        BangsShape()
+                            .stroke(lineWidth: 1)
+                            .padding([.leading, .trailing], 10)
+                            .foregroundStyle(.black)
+                    }
+                    .foregroundStyle(.white)
+                    .compositingGroup()
+                    .frame(width: BangsWidth, height: BangsHeight)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    .allowsHitTesting(false)
+                    .opacity(0.3)
+                }
+               
+#endif
         }
-       
     }
 }
 

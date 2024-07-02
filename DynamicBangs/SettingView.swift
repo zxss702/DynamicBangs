@@ -105,11 +105,13 @@ struct SettingView: View {
     @AppStorage("musicLogo") var musicLogo = "music.note"
     @AppStorage("palyID") var playID: Int = 1
     @AppStorage("openNearBy") var openNearBy = false
+    @AppStorage("autoJumpBanzou") var autoJumpBanzou = false
+    @AppStorage("autoJumpDJ") var autoJumpDJ = false
     
     @ViewBuilder
     func 媒体() -> some View {
         SettingViewCellViewType(title: "媒体") {
-            SettingCellView(showDivier: false, name: "音乐占位符", bottomName: "SFImage或“网易云“作为占位符") {
+            SettingCellView(showDivier: false, name: "音乐占位符", bottomName: "SFImage作为占位符") {
                 TextField("music.note", text: $musicLogo)
             }
             SettingCellView(showDivier: true, name: "音量和亮度", bottomName: "使用灵动刘海调节音量和亮度") {
@@ -137,7 +139,19 @@ struct SettingView: View {
                 }
                 .labelsHidden()
             }
-
+            SettingCellView(showDivier: true, name: "跳过伴奏", bottomName: "自动跳过标题中含有”伴奏”的音乐") {
+                Toggle(isOn: $autoJumpBanzou) {
+                    
+                }
+                .labelsHidden()
+            }
+            SettingCellView(showDivier: true, name: "跳过DJ", bottomName: "自动跳过标题中含有”DJ”的音乐") {
+                Toggle(isOn: $autoJumpDJ) {
+                    
+                }
+                .labelsHidden()
+            }
+            
             SettingCellView2(showDivier: true, name: "黑名单", bottomName: "未勾选的程序将不会激活大卡片") {
                 VStack(spacing: 15) {
                     let showImageList:[mediaAppCanShow] = (try? PropertyListDecoder().decode([mediaAppCanShow].self, from: appObserver.showImageListData)) ?? []

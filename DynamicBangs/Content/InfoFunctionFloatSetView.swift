@@ -34,7 +34,7 @@ struct InfoFunctionFloatSetView<T:InfoFunctionFloat>: View {
                     .padding(.trailing, 5)
             }
             .padding([.bottom, .trailing, .leading], 10)
-            .frame(width: max(BangsWidth * 1.4, 160 * 1.4), height: 35)
+            .frame(width: max((BangsWidth - 20) * 1.4, 160 * 1.4), height: 35)
             .transition(.blur)
         }
     }

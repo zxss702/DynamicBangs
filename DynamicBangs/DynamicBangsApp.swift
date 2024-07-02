@@ -18,14 +18,18 @@ enum BatteryError: Error { case error }
 
 struct mediaInfoFunction: Equatable {
     var image: Image?
+    var nedSetImage = true
+    
     var name: String
     var Artist: String
     var Artist2: String
     var isPlay:Bool
-    var fullType:Int = 10
-    
     var fullTime: Double = 0.1
     var nowTime: Double = 0
+    
+    var appID:String = ""
+    
+    var fullType:Int = 10
 }
 
 protocol InfoFunctionFloat: Equatable {
@@ -80,6 +84,11 @@ struct mediaAppCanShow: Codable, Identifiable {
     var canShow: Bool = true
 }
 
+struct filesCopyHelper: Equatable {
+    var name: String
+    var image: Image = Image(systemName: "document")
+}
+
 class AppObserver: NSObject, NSApplicationDelegate, ObservableObject, MediaKeyTapDelegate {
     var windows:[NSWindow] = []
     
@@ -90,6 +99,7 @@ class AppObserver: NSObject, NSApplicationDelegate, ObservableObject, MediaKeyTa
     @Published var keyBright:BrightInfoFunction?
     @Published var isCharging:ChargingInfoFunction = ChargingInfoFunction()
     @Published var message: [messageInfoFunction] = []
+    @Published var saveURL:[URL:filesCopyHelper] = [:]
     
     @Published var SettingWindow:NSWindow?
     
@@ -113,19 +123,25 @@ class AppObserver: NSObject, NSApplicationDelegate, ObservableObject, MediaKeyTa
         notchWindowController.showWindow(self)
         SettingWindow = BangsWindow
     }
-    
+    let queue = DispatchQueue(label: "")
     @Published var showWhite = false
     
     @objc func getMediaisPlay() {
-        MRMediaRemoteGetNowPlayingApplicationIsPlaying(.main) { Bool in
-            if self.media == nil {
-                self.media = mediaInfoFunction(name: "未知作品", Artist: "未知作者", Artist2: "未知专辑", isPlay: false)
+        MRMediaRemoteGetNowPlayingApplicationIsPlaying(queue) { Bool in
+            DispatchQueue.main.async {
+                if self.media == nil {
+                    self.media = mediaInfoFunction(name: "未知作品", Artist: "未知作者", Artist2: "未知专辑", isPlay: false)
+                }
+                self.media?.isPlay = Bool
             }
-            self.media?.isPlay = Bool
         }
     }
+    
+    @AppStorage("autoJumpBanzou") var autoJumpBanzou = false
+    @AppStorage("autoJumpDJ") var autoJumpDJ = false
+    
     @objc func getMediaInfo() {
-        MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main, { [self] (information) in
+        MRMediaRemoteGetNowPlayingInfo(queue, { [self] (information) in
             if let information = information {
                 if self.media == nil {
                     self.media = mediaInfoFunction(name: "未知作品", Artist: "未知作者", Artist2: "未知专辑", isPlay: false)
@@ -133,71 +149,94 @@ class AppObserver: NSObject, NSApplicationDelegate, ObservableObject, MediaKeyTa
                 let name = (information[kMRMediaRemoteNowPlayingInfoTitle] as? String) ?? "未知作品"
                 let ar = (information[kMRMediaRemoteNowPlayingInfoArtist] as? String) ?? "未知作者"
                 let ar2 = (information[kMRMediaRemoteNowPlayingInfoAlbum] as? String) ?? "未知专辑"
-                if self.media?.name != name || self.media?.Artist != ar || self.media?.Artist2 != ar2 || self.media?.image == nil {
-                    if let data = information[kMRMediaRemoteNowPlayingInfoArtworkData] as? Data {
-                        self.media?.image = Image(nsImage: NSImage(data: data)!)
-                    } else {
-                        self.media?.image = nil
+                DispatchQueue.main.async { [self] in
+                    if self.media?.name != name || self.media?.Artist != ar || self.media?.Artist2 != ar2 || self.media?.image == nil || (self.media?.nedSetImage ?? false) {
+                        if let data = information[kMRMediaRemoteNowPlayingInfoArtworkData] as? Data {
+                            self.media?.image = Image(nsImage: NSImage(data: data)!)
+                            self.media?.nedSetImage = false
+                        } else {
+                            self.media?.nedSetImage = true
+                        }
+                    }
+                    self.media?.name = name
+                    self.media?.Artist = ar
+                    self.media?.Artist2 = ar2
+                    
+                    if let allTime = information[kMRMediaRemoteNowPlayingInfoDuration] as? Double {
+                        self.media?.fullTime = allTime
+                    }
+                    if let nowTime = information[kMRMediaRemoteNowPlayingInfoElapsedTime] as? Double {
+                        self.media?.nowTime = nowTime
+                    }
+                    setShowMedia()
+                    getMediaisPlay()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
+                        if autoJumpBanzou && (name.lowercased().contains("伴奏") || name.lowercased().contains("accompan")) {
+                            MRMediaRemoteSendCommand(MRMediaRemoteCommandNextTrack, [:])
+                        }
+                        if autoJumpDJ && name.lowercased().contains("dj") {
+                            MRMediaRemoteSendCommand(MRMediaRemoteCommandNextTrack, [:])
+                        }
                     }
                 }
-                self.media?.name = name
-                self.media?.Artist = ar
-                self.media?.Artist2 = ar2
-                
-                if let allTime = information[kMRMediaRemoteNowPlayingInfoDuration] as? Double {
-                    self.media?.fullTime = allTime
-                }
-                if let nowTime = information[kMRMediaRemoteNowPlayingInfoElapsedTime] as? Double {
-                    self.media?.nowTime = nowTime
-                }
-                setShowMedia()
-                getMediaisPlay()
             } else {
-                self.media = nil
+                DispatchQueue.main.async {
+                    self.media = nil
+                }
             }
         })
     }
     @objc func setShowMedia() {
-        MRMediaRemoteGetNowPlayingClient(.main) { [self] MRNowPlayingClientProtobuf in
-            if self.media == nil {
-                self.media = mediaInfoFunction(name: "未知作品", Artist: "未知作者", Artist2: "未知专辑", isPlay: false)
-            }
-            if let id = MRNowPlayingClientProtobuf?.bundleIdentifier {
-                var showImageList:[mediaAppCanShow] = (try? PropertyListDecoder().decode([mediaAppCanShow].self, from: self.showImageListData)) ?? []
-                if let ff = showImageList.first(where: { mediaAppCanShow in
-                    mediaAppCanShow.id == id
-                }) {
-                    if ff.canShow {
-                        self.media?.fullType = 0
-                        setMediaTime()
-                    }
-                } else {
-                    showImageList.append(mediaAppCanShow(id: id, canShow: true))
-                    self.media?.fullType = 0
-                    setMediaTime()
+        MRMediaRemoteGetNowPlayingClient(queue) { [self] MRNowPlayingClientProtobuf in
+            DispatchQueue.main.async { [self] in
+                if self.media == nil {
+                    self.media = mediaInfoFunction(name: "未知作品", Artist: "未知作者", Artist2: "未知专辑", isPlay: false)
                 }
-                self.showImageListData = (try? PropertyListEncoder().encode(showImageList)) ?? Data()
+                if let id = MRNowPlayingClientProtobuf?.bundleIdentifier {
+                    if self.media?.appID != id && self.media?.appID != "" {
+                        self.media?.image = nil
+                    }
+                    self.media?.appID = id
+                    print(id)
+                    var showImageList:[mediaAppCanShow] = (try? PropertyListDecoder().decode([mediaAppCanShow].self, from: self.showImageListData)) ?? []
+                    if let ff = showImageList.first(where: { mediaAppCanShow in
+                        mediaAppCanShow.id == id
+                    }) {
+                        if self.media?.isPlay ?? false {
+                            if ff.canShow {
+                                self.media?.fullType = 0
+                                setMediaTime()
+                            }
+                        }
+                    } else {
+                        showImageList.append(mediaAppCanShow(id: id, canShow: true))
+                        if self.media?.isPlay ?? false {
+                            self.media?.fullType = 0
+                            setMediaTime()
+                        }
+                    }
+                    self.showImageListData = (try? PropertyListEncoder().encode(showImageList)) ?? Data()
+                }
             }
         }
-        
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(setWindow), name: NSApplication.didChangeScreenParametersNotification, object: nil)
-        
-        MRMediaRemoteRegisterForNowPlayingNotifications(.main)
-        NotificationCenter.default.addObserver(self, selector: #selector(getMediaInfo), name: NSNotification.Name.mrMediaRemoteNowPlayingInfoDidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(getMediaInfo), name: NSNotification.Name.mrMediaRemoteNowPlayingApplicationDidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(getMediaisPlay), name: NSNotification.Name.mrMediaRemoteNowPlayingApplicationIsPlayingDidChange, object: nil)
-        
-        getMediaInfo()
-        setvolume()
         DispatchQueue.main.async { [self] in
+            NotificationCenter.default.addObserver(self, selector: #selector(setWindow), name: NSApplication.didChangeScreenParametersNotification, object: nil)
+            
+            MRMediaRemoteRegisterForNowPlayingNotifications(queue)
+            NotificationCenter.default.addObserver(self, selector: #selector(getMediaInfo), name: NSNotification.Name.mrMediaRemoteNowPlayingInfoDidChange, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(getMediaInfo), name: NSNotification.Name.mrMediaRemoteNowPlayingApplicationDidChange, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(getMediaisPlay), name: NSNotification.Name.mrMediaRemoteNowPlayingApplicationIsPlayingDidChange, object: nil)
+            
+            getMediaInfo()
+            setvolume()
             setWindow()
             app.applicationDidFinishLaunching()
+            setBetterTime()
         }
-        setBetterTime()
+        
     }
     
     
@@ -323,7 +362,7 @@ class AppObserver: NSObject, NSApplicationDelegate, ObservableObject, MediaKeyTa
     func setvolume() {
         mediaKeyTap?.stop()
         if mediashow {
-            mediaKeyTap = MediaKeyTap(delegate: self, for: [.volumeUp, .volumeDown, .mute, .brightnessUp, .brightnessDown], observeBuiltIn: true)//.brightnessUp, .brightnessDown, .backlightDown, .backlightUP])
+            mediaKeyTap = MediaKeyTap(delegate: self, for: [.volumeUp, .volumeDown, .mute,], observeBuiltIn: true)//.brightnessUp, .brightnessDown, .backlightDown, .backlightUP])
             mediaKeyTap?.start()
         }
     }
@@ -361,9 +400,9 @@ class AppObserver: NSObject, NSApplicationDelegate, ObservableObject, MediaKeyTa
     
     func setMediaTime() {
         if time2 == nil {
-            time2 = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { [self] Timer in
+            time2 = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] Timer in
                 if self.media?.fullType ?? 10 < 10 {
-                    self.media?.fullType += 3
+                    self.media?.fullType += 1
                 } else {
                     Timer.invalidate()
                     time2 = nil
@@ -403,6 +442,9 @@ class AppObserver: NSObject, NSApplicationDelegate, ObservableObject, MediaKeyTa
                 self.isCharging.fullType += 1
             }
             setBeter()
+            if media?.isPlay ?? false {
+                media?.nowTime += 1
+            }
         }
     }
     @Published var showDisplays:[Int] = [(NSScreen.main?.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? Int) ?? 1]
@@ -446,16 +488,14 @@ class AppObserver: NSObject, NSApplicationDelegate, ObservableObject, MediaKeyTa
                         let BangsWindow = NotchWindow()
                         BangsWindow.targetScreen = i
                         BangsWindow.contentViewController = hostionViewController
-                        BangsWindow.styleMask = [.borderless, .nonactivatingPanel]
-                        BangsWindow.backingType = .buffered
+                        BangsWindow.styleMask = [.borderless]
                         BangsWindow.backgroundColor = .clear
                         BangsWindow.hasShadow = false
-                        BangsWindow.level = .screenSaver
+                        BangsWindow.level = .statusBar
                         BangsWindow.collectionBehavior =  [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
                         BangsWindow.setFrame(i.frame, display: true)
                         BangsWindow.canBecomeVisibleWithoutLogin = true
                         BangsWindow.isExcludedFromWindowsMenu = true
-                        
                         
                         let notchWindowController = NSWindowController()
                         notchWindowController.contentViewController = BangsWindow.contentViewController
@@ -463,6 +503,8 @@ class AppObserver: NSObject, NSApplicationDelegate, ObservableObject, MediaKeyTa
                         notchWindowController.window = BangsWindow
                         notchWindowController.showWindow(self)
                         windows.append(BangsWindow)
+//                        BangsWindow.becomeKey()
+                        
                     }
                 }
             }
